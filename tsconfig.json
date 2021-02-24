@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.dev.json",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "sourceMap": false,
+
+    /* Additional Checks */
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictNullChecks": true
+  }
+}

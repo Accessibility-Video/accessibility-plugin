@@ -1,0 +1,66 @@
+@import "variables.css";
+
+@font-face {
+    font-family: 'Scribit Icons';
+    src: url(../fonts/Scribit-Icons.ttf?bkbary) format('truetype'),
+    url(../fonts/Scribit-Icons.woff?bkbary) format('woff'),
+    url(../fonts/Scribit-Icons.svg?bkbary#Scribit-Icons) format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+html {
+    font-size: 100%;
+}
+
+body {
+    font-family: var(--font-family);
+    background: var(--background-color);
+    color: var(--font-color);
+    margin: 0;
+    line-height: 1.5;
+}
+
+h1 {
+    font-size: 1rem;
+}
+
+h2 {
+
+}
+
+.scribit-icon {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'Scribit Icons' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.scribit-icon.ad:before {
+    content: "\e900";
+}
+
+.scribit-icon.cc:before {
+    content: "\e901";
+}
+
+.scribit-icon.cog:before {
+    content: "\e902";
+}
+
+.scribit-icon.sl:before {
+    content: "\e903";
+}
+
+.scribit-icon.ta:before {
+    content: "\e904";
+}

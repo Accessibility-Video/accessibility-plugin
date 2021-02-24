@@ -1,0 +1,21 @@
+:root {
+    --font-family: "Helvetica Neue", Helvetica, system-ui, Arial, sans-serif;
+
+    --primary-color: #380381;
+    --secondary-color: #FF765D;
+
+    --background-color: #f8f9fa;
+    --body-color: #fff;
+    --input-accent-color: var(--primary-color);
+    --font-color: #000;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #202125;
+        --body-color: #2A2A2D;
+        --input-accent-color: var(--secondary-color);
+
+        --font-color: #fff;
+    }
+}

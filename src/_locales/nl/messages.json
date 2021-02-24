@@ -1,0 +1,45 @@
+{
+  "accessibilityOptions": {
+    "message": "Toegankelijkheids opties"
+  },
+
+  "audioDescription": {
+    "message": "Audiodescriptie"
+  },
+
+  "audioDescriptionExplanation": {
+    "message": "Gesproken beschrijvingen van de visuele aspecten in video's."
+  },
+
+  "closedCaptioning": {
+    "message": "Ondertiteling"
+  },
+
+  "closedCaptioningExplanation": {
+    "message": ""
+  },
+
+  "extensionDescription": {
+    "message": "Schakelt op basis van gebruikersvoorkeuren toegankelijkheidsopties in voor verschillende videospelers op het web"
+  },
+
+  "noVideosFound": {
+    "message": "Er zijn geen (ondersteunde) video's gevonden op deze pagina"
+  },
+
+  "signLanguage": {
+    "message": "Gebarentaal"
+  },
+
+  "signLanguageExplanation": {
+    "message": "Door visuele begrippen en handelingen word het dialoog vertaald."
+  },
+
+  "textAlternative": {
+    "message": "Tekst alternatief"
+  },
+
+  "textAlternativeExplanation": {
+    "message": "Uitgeschreven tekst van de dialogen in video's."
+  }
+}

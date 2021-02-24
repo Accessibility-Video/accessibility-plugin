@@ -1,0 +1,45 @@
+{
+  "accessibilityOptions": {
+    "message": "Accessibility options"
+  },
+
+  "audioDescription": {
+    "message": "Audio description"
+  },
+
+  "audioDescriptionExplanation": {
+    "message": ""
+  },
+
+  "closedCaptioning": {
+    "message": "Closed captioning"
+  },
+
+  "closedCaptioningExplanation": {
+    "message": ""
+  },
+
+  "extensionDescription": {
+    "message": "Enables accessibility options for various video players on the web based on user preferences"
+  },
+
+  "noVideosFound": {
+    "message": "No (supported) videos were found on this page."
+  },
+
+  "signLanguage": {
+    "message": "Sign language"
+  },
+
+  "signLanguageExplanation": {
+    "message": ""
+  },
+
+  "textAlternative": {
+    "message": "Transcript"
+  },
+
+  "textAlternativeExplanation": {
+    "message": ""
+  }
+}

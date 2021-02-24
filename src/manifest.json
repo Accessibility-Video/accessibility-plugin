@@ -1,0 +1,40 @@
+{
+  "name": "video accessibility",
+  "default_locale": "en",
+  "description": "__MSG_extensionDescription__",
+  "homepage_url": "https://accessibility.video",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "icons": {
+    "16": "./assets/images/icon-16x16.png",
+    "32": "./assets/images/icon-32x32.png",
+    "48": "./assets/images/icon-48x48.png",
+    "128": "./assets/images/icon-128x128.png"
+  },
+  "background": {
+    "scripts": ["background.ts"]
+  },
+  "options_ui": {
+    "page": "pages/options.html"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["scribit-extension.ts"]
+    }
+  ],
+  "web_accessible_resources": [
+    "assets/fonts/Scribit-Icons.svg",
+    "assets/fonts/Scribit-Icons.ttf",
+    "assets/fonts/Scribit-Icons.woff",
+    "assets/images/logo.png",
+    "assets/images/icon.svg",
+    "assets/styles/variables.css"
+  ]
+}
