@@ -35,6 +35,7 @@
     "assets/fonts/Scribit-Icons.woff",
     "assets/images/logo.png",
     "assets/images/icon.svg",
-    "assets/styles/variables.css"
+    "assets/styles/variables.css",
+    "video-accessibility.ts"
   ]
 }
