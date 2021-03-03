@@ -1,9 +1,9 @@
-import { Storage, t, UserPreferences } from '@scribit/feature/browser-extension';
+import { UserPreferences } from '@scribit/feature/browser-extension';
 import { A11y, Form } from '@scribit/shared/types';
 import { customElement, html, TemplateResult } from 'lit-element';
 import { camelCase } from 'lodash'
 import { BaseComponent } from './base-component';
-import ChangeEvent = Form.ChangeEvent;
+import { Storage, t } from '../helpers';
 
 @customElement('scribit-extension-options')
 export class Popup extends BaseComponent {

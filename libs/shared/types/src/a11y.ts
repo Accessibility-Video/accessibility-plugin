@@ -15,15 +15,15 @@ export namespace A11y {
     /**
      * A interface for toggling a accessibility feature.
      */
-    export interface Toggler {
+    export interface Toggle {
         /**
          * A method which enables a specific accessibility feature.
          */
-        enable<T = void>(feature: Feature): Promise<T>
+        enable(feature: Feature): Promise<boolean | void>
 
         /**
          * A method which disables a specific accessibility feature.
          */
-        disable<T = void>(feature: Feature): Promise<T>
+        disable(feature: Feature): Promise<boolean | void>
     }
 }

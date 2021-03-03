@@ -25,8 +25,47 @@
   ],
   "content_scripts": [
     {
+      "all_frames": true,
+      "exclude_matches": [
+        "http://player.vimeo.com/static/*",
+        "https://player.vimeo.com/static/*"
+      ],
+      "matches": [
+        "http://vimeo.com/*",
+        "https://vimeo.com/*",
+        "http://player.vimeo.com/*",
+        "https://player.vimeo.com/*"
+      ],
+      "js": ["foreground-vimeo.ts"]
+    },
+    {
+      "all_frames": true,
+      "matches": [
+        "http://m.youtube.com/*",
+        "https://m.youtube.com/*",
+        "http://www.youtube.com/*",
+        "https://www.youtube.com/*",
+        "http://www.youtube-nocookie.com/*",
+        "https://www.youtube-nocookie.com/*"
+      ],
+      "js": ["foreground-youtube.ts"]
+    },
+    {
+      "all_frames": true,
+      "exclude_matches": [
+        "http://vimeo.com/*",
+        "https://vimeo.com/*",
+        "http://player.vimeo.com/*",
+        "https://player.vimeo.com/*",
+        "http://m.youtube.com/*",
+        "https://m.youtube.com/*",
+        "http://www.youtube.com/*",
+        "https://www.youtube.com/*",
+        "http://www.youtube-nocookie.com/*",
+        "https://www.youtube-nocookie.com/*"
+      ],
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["scribit-extension.ts"]
+      "js": ["foreground-common.ts"]
     }
   ],
   "web_accessible_resources": [
