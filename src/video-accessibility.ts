@@ -1,31 +1,15 @@
-import { A11yHandler, EventType, MessageType, PlayerFactory, MessageEvent } from '@scribit/feature/browser-extension';
-import { getImplementedMediaPlayerInstances } from '@scribit/shared/utils';
+import { EventType, MediaPlayerHandler, MessageEvent } from '@scribit/feature/browser-extension';
+import { Media } from '@scribit/shared/utils';
 import { Observable } from 'rxjs';
-import { share, tap } from 'rxjs/operators';
 
-class VideoAccessibilityHandler extends A11yHandler {
+class VideoAccessibilityHandler extends MediaPlayerHandler {
     constructor(watcher: Observable<MessageEvent>) {
-        watcher = watcher.pipe(tap(event => {
-            if (!this.preferences || event.messageType === MessageType.UpdatedTab) {
-                return this.scan();
-            }
-        }))
-        super(watcher);
+        super(watcher, Object.values(Media.Framework));
 
         const event = document.createEvent('Event');
         event.initEvent(EventType.Initialized);
-        document.dispatchEvent(event);
-    }
-
-    public scan(element: Element = document.body) {
-        this.toggleInstances = [];
-        const factory = PlayerFactory.getInstance();
-        getImplementedMediaPlayerInstances(element, factory).forEach((instance) => {
-            instance.scan(element);
-            if(instance.hasPlayers) {
-                this.toggleInstances.push(instance);
-            }
-        });
+        // Dispatch event after watcher is subscribed in super constructor
+        setTimeout(() => document.dispatchEvent(event));
     }
 }
 
@@ -41,7 +25,7 @@ if (!window.scribit.extension) {
         document.addEventListener(EventType.Changed, handleListener, false);
 
         return () => document.removeEventListener(EventType.Changed, handleListener);
-    }).pipe(share());
+    });
     window.scribit.extension = new VideoAccessibilityHandler(watcher);
 }
 

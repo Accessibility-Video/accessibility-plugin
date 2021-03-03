@@ -9,3 +9,9 @@ export class VideoJS extends FrameworkPlayer<any> implements A11y.Toggle {
         return [];
     }
 }
+
+declare global {
+    interface Window {
+        videojs: any;
+    }
+}

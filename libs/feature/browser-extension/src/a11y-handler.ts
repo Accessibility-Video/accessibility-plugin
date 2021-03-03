@@ -9,8 +9,9 @@ export abstract class A11yHandler implements A11y.Toggle {
     /**
      *
      */
-    protected constructor(protected readonly watcher: Observable<MessageEvent>) {
-        watcher.subscribe(event => {
+    protected constructor(watcher: Observable<MessageEvent>) {
+        watcher = this.transformWatcher(watcher);
+        setTimeout(() => watcher.subscribe(event => {
             let disables = false;
             if (event.messageType === MessageType.UpdatedUserPreferences) {
                 this.preferences = (event as MessageEvent<MessageType.UpdatedUserPreferences>).preferences;
@@ -31,7 +32,7 @@ export abstract class A11yHandler implements A11y.Toggle {
                     }
                 }
             }
-        });
+        }));
     }
 
     /**
@@ -50,5 +51,12 @@ export abstract class A11yHandler implements A11y.Toggle {
         const promises = this.toggleInstances.map(instance => instance.enable(feature));
 
         return Promise.all(promises);
+    }
+
+    /**
+     *
+     */
+    protected transformWatcher(watcher: Observable<MessageEvent>): Observable<MessageEvent> {
+        return watcher;
     }
 }

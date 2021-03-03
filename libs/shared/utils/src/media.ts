@@ -62,7 +62,7 @@ export namespace Media {
      *
      */
     export function loadPlatformScript(platform: Platform, callback: Function): void {
-        if (platform === Platform.YT && !window.YT?.loaded) {
+        if (platform === Platform.YT && window.YT && !window.YT.loaded) {
             const innerCallback = callback;
             callback = () => window.YT.ready(() => innerCallback());
         }

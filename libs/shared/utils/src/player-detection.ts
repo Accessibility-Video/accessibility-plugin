@@ -9,8 +9,7 @@ export interface PlayerFactory<M extends PlayerFactoryMap<R>, R = any> {
 /**
  *
  */
-export function getImplementedMediaPlayerInstances<T extends PlayerFactory<PlayerFactoryMap>>(element: Element, factory: T): ReturnType<T['create']>[] {
-    const players: Media.Player[] = [...Object.values(Media.Platform), ...Object.values(Media.Framework)];
+export function getImplementedMediaPlayerInstances<T extends PlayerFactory<PlayerFactoryMap>>(element: Element, factory: T, players: Media.Player[]): ReturnType<T['create']>[] {
     const instances: ReturnType<T['create']>[] = [];
 
     for (let i = 0; i < players.length; i++) {

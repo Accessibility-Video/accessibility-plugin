@@ -69,9 +69,9 @@
     }
   ],
   "web_accessible_resources": [
-    "assets/fonts/Scribit-Icons.svg",
-    "assets/fonts/Scribit-Icons.ttf",
-    "assets/fonts/Scribit-Icons.woff",
+    "assets/fonts/scribit-icons.svg",
+    "assets/fonts/scribit-icons.ttf",
+    "assets/fonts/scribit-icons.woff",
     "assets/images/logo.png",
     "assets/images/icon.svg",
     "assets/styles/variables.css",
