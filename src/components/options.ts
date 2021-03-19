@@ -53,12 +53,13 @@ export class Popup extends BaseComponent {
             <div class="feature option row">
                 <div class="scribit-icon ${preferenceKey}"></div>
                 <div class="label-wrapper">
-                    <div class="label">${t(translationKey)}</div>
+                    <div id="${preferenceKey}-label" class="label">${t(translationKey)}</div>
                     <div class="secondary label">${t(translationKey+'Explanation')}</div>
                 </div>
                 <div class="input">
                     <label class="switch">
-                        <input type="checkbox" name="${preferenceKey}" ?checked="${checked}" @change="${this.updatePreference}">
+                        <input type="checkbox" role="switch" name="${preferenceKey}" ?checked="${checked}"
+                            @change="${this.updatePreference}" aria-labelledby="${preferenceKey}-label">
                         <span></span>
                     </label>
                 </div>
@@ -70,5 +71,4 @@ export class Popup extends BaseComponent {
         this.preferences[key] = event.target.checked;
         Storage.set(Storage.Key.UserPreference, this.preferences).catch(console.warn);
     }
-
 }

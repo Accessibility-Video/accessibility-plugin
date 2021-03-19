@@ -72,7 +72,7 @@ section h2 {
 }
 
 .input .switch input {
-    display: none;
+    opacity: 0;
 }
 
 .input .switch input:checked + span {

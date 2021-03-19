@@ -1,6 +1,6 @@
 {
   "accessibilityOptions": {
-    "message": "Toegankelijkheids opties"
+    "message": "Toegankelijkheidsopties"
   },
 
   "audioDescription": {
@@ -32,14 +32,14 @@
   },
 
   "signLanguageExplanation": {
-    "message": "Door visuele begrippen en handelingen word het dialoog vertaald."
+    "message": "Door visuele begrippen en handelingen wordt de dialoog vertaald."
   },
 
   "textAlternative": {
-    "message": "Tekst alternatief"
+    "message": "Tekstalternatief"
   },
 
   "textAlternativeExplanation": {
-    "message": "Uitgeschreven tekst van de dialogen in video's."
+    "message": "Uitgeschreven tekst van de dialogen en audiodescriptie in video's."
   }
 }
