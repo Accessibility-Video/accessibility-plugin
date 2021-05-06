@@ -1,6 +1,7 @@
 import { UserPreferences } from '@scribit/feature/browser-extension';
 import { A11y, Form } from '@scribit/shared/types';
-import { customElement, html, TemplateResult } from 'lit-element';
+import { html, TemplateResult } from 'lit';
+import { customElement } from 'lit/decorators.js'
 import { camelCase } from 'lodash'
 import { BaseComponent } from './base-component';
 import { Storage, t } from '../helpers';
