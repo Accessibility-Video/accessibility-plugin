@@ -40,6 +40,9 @@
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-empty-dir": "^1.0.4",
     "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-svelte": "^7.1.0",
+    "svelte": "^3.38.2",
+    "svelte-preprocess": "^4.7.3",
     "tslib": "^2.2.0",
     "typescript": "^4.2.4",
     "webextension-polyfill-ts": "^0.25.0"
