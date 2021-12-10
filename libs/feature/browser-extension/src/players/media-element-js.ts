@@ -3,7 +3,7 @@ import { FrameworkPlayer } from './framework-player';
 
 export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y.Toggle {
     /**
-     * returns a array of objects, each object is a reference
+     * returns an array of objects, each object is a reference
      * to a MediaElement player instance.
      */
     protected getScanResults(): MeJS.Player[] {
@@ -16,16 +16,12 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
     protected toggleAudioDescription(enabled: boolean): void {
         this.adjustFeature('audio-description', enabled);
     }
+
     /**
      * @inheritDoc
      */
     protected toggleClosedCaptioning(enabled: boolean): void {
-        for (let player of this.players) {
-            if (enabled && player.tracks && player.tracks.length) {
-                player.loadTrack(0);
-                player.setTrack(player.tracks[0].trackId);
-            }
-        }
+        this.adjustFeature('tracks', enabled);
     }
 
     /**
@@ -40,6 +36,12 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
      */
     protected toggleTextAlternative(enabled: boolean): void {
         for (let player of this.players) {
+            const position = this.getFeaturePosition(player, 'transcript');
+            if (position) {
+                this.adjustFeature('transcript', enabled);
+                continue;
+            }
+
             const sibling: Element | null = player.container.nextElementSibling;
             if (!sibling || !sibling.classList.contains('transcript')) continue;
 
@@ -57,12 +59,16 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
         }
     }
 
+    private getFeaturePosition(player: MeJS.Player, feature: string): number | undefined {
+        return player.featurePosition[feature];
+    }
+
     /**
      *
      */
     private adjustFeature(feature: string, enabled: boolean): void {
         for (let player of this.players) {
-            const position = player.featurePosition[feature];
+            const position = this.getFeaturePosition(player, feature);
             if (!position) continue;
 
             const control = player.controls.children[position];
