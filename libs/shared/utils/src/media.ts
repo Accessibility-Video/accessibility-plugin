@@ -17,6 +17,7 @@ export namespace Media {
         JW = 'JW Player',
         ME = 'MediaElement.js',
         VJS = 'Video.js',
+        SPW = 'Scribit Pro widget',
     }
 
     /**

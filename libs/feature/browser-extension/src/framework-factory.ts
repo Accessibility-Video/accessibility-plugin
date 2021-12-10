@@ -1,6 +1,6 @@
 import { A11y } from '@scribit/shared/types';
 import { Media, PlayerFactory } from '@scribit/shared/utils';
-import { FrameworkPlayer, JWPlayer, MediaElementJS, VideoJS } from './players';
+import { FrameworkPlayer, JWPlayer, MediaElementJS, VideoJS, ScribitProWidget } from "./players";
 
 type FactoryMap = typeof FrameworkFactory.instanceMap;
 type FactoryResult = FrameworkPlayer<any> & A11y.Toggle
@@ -12,6 +12,7 @@ export class FrameworkFactory implements PlayerFactory<FactoryMap> {
     public static readonly instanceMap: Readonly<{ [key in Media.Player]?: any }> = {
         [Media.Framework.JW]: JWPlayer,
         [Media.Framework.ME]: MediaElementJS,
+        [Media.Framework.SPW]: ScribitProWidget,
         [Media.Framework.VJS]: VideoJS,
     };
 

@@ -56,9 +56,20 @@ function isVJS(element: Element): boolean {
 /**
  *
  */
+function isSPW(element: Element): boolean {
+    const window = element.ownerDocument.defaultView;
+    const hasBar = window?.scribit?.widget?.hasBar;
+
+    return typeof hasBar === 'function';
+}
+
+/**
+ *
+ */
 const playerDetectionMap: { [key in Media.Player]?: (element: Element) => boolean } = {
     [Media.Framework.JW]: isJW,
     [Media.Framework.ME]: isME,
+    [Media.Framework.SPW]: isSPW,
     [Media.Framework.VJS]: isVJS,
 };
 
