@@ -81,6 +81,6 @@ new Observable<number>(observer => {
     browser.tabs.onUpdated.addListener(callback);
 
     return () => browser.tabs.onUpdated.removeListener(callback);
-}).pipe(debounceTime(600)).subscribe(tabId => {
+}).pipe(debounceTime(1000)).subscribe(tabId => {
     browser.tabs.sendMessage(tabId, 'UpdatedTab').catch(err => console.warn(err));
 });
