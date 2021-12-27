@@ -10,7 +10,7 @@
       "@semantic-release/exec",
       {
         "verifyReleaseCmd": "echo ${nextRelease.version} > .VERSION",
-        "prepareCmd": "npx replace-json-property ./package.json ${nextRelease.version} && npx replace-json-property ./src/manifest.json ${nextRelease.version}"
+        "prepareCmd": "npx replace-json-property ./package.json version ${nextRelease.version} && npx replace-json-property ./src/manifest.json version ${nextRelease.version}"
       }
     ],
     [
@@ -20,7 +20,7 @@
           "package.json",
           "src/manifest.json"
         ],
-        "message": "chore(release): ⬆️ Bump version to ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        "message": "chore(release): ⬆️ Bump version to ${nextRelease.version}\n\n${nextRelease.notes}"
       }
     ]
   ]

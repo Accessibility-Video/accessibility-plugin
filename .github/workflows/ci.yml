@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -22,7 +22,6 @@ jobs:
           node-version: "14"
 
       - name: Create semantic-release
-        id: version
         run: |
           npm ci
           npm_config_yes=true npx semantic-release
