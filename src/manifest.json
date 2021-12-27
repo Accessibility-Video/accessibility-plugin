@@ -3,7 +3,7 @@
   "default_locale": "en",
   "description": "__MSG_extensionDescription__",
   "homepage_url": "https://accessibility.video",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "manifest_version": 2,
   "icons": {
     "16": "./assets/images/icon-16x16.png",
@@ -12,7 +12,9 @@
     "128": "./assets/images/icon-128x128.png"
   },
   "background": {
-    "scripts": ["background.ts"]
+    "scripts": [
+      "background.ts"
+    ]
   },
   "options_ui": {
     "page": "pages/options.html"
@@ -35,7 +37,9 @@
         "http://player.vimeo.com/*",
         "https://player.vimeo.com/*"
       ],
-      "js": ["foreground-vimeo.ts"]
+      "js": [
+        "foreground-vimeo.ts"
+      ]
     },
     {
       "all_frames": true,
@@ -47,7 +51,9 @@
         "http://www.youtube-nocookie.com/*",
         "https://www.youtube-nocookie.com/*"
       ],
-      "js": ["foreground-youtube.ts"]
+      "js": [
+        "foreground-youtube.ts"
+      ]
     },
     {
       "all_frames": true,
@@ -63,8 +69,13 @@
         "http://www.youtube-nocookie.com/*",
         "https://www.youtube-nocookie.com/*"
       ],
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["foreground-common.ts"]
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "foreground-common.ts"
+      ]
     }
   ],
   "web_accessible_resources": [
