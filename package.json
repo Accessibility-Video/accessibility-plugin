@@ -1,6 +1,6 @@
 {
-  "name": "scribit-pro-browser-plugin",
-  "version": "0.0.1",
+  "name": "scribit-pro-accessibility-plugin",
+  "version": "1.0.2",
   "description": "Browser plugin which can be used to set default a11y options for embed video's",
   "scripts": {
     "dev": "npx rollup --config --watch --environment development",
@@ -13,14 +13,21 @@
   "author": "Weave (https://weave.nl)",
   "contributors": [
     "Quincy van Bommel <quincy@weave.nl>",
-    "Tom Brouws <tom@weave.nl>"
+    "Tom Brouws <tom@weave.nl>",
+    "William Rijksen <william.rijksen@thefuturepartners.nl>"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Accessibility-Video/accessibility-plugin.git"
+  },
   "license": "UNLICENSED",
   "devDependencies": {
     "@open-wc/eslint-config": "^4.3.0",
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-typescript": "^8.2.1",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "@types/jwplayer": "^8.2.6",
     "@types/lodash": "^4.14.168",
     "@types/video.js": "^7.3.17",
@@ -39,8 +46,8 @@
     "rollup-plugin-chrome-extension": "^3.5.6",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-empty-dir": "^1.0.4",
-    "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-svelte": "^7.1.0",
+    "rollup-plugin-terser": "^7.0.2",
     "svelte": "^3.38.2",
     "svelte-preprocess": "^4.7.3",
     "tslib": "^2.2.0",
