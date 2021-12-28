@@ -1,4 +1,4 @@
-name: build
+name: test
 
 on: [pull_request]
 
@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Create build
+      - name: Test code
         run: |
           npm ci
-          npm run build
+          npm run test
