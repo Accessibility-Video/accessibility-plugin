@@ -1,27 +1,22 @@
 name: build
 
-on:
-  push:
-    branches:
-      - master
-    tags:
-      - "!*"
+on: [pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Node.js for semantic-release
+      - name: Install Node.js for build
         uses: actions/setup-node@v2
         with:
           node-version: "14"
 
-      - name: Create semantic-release
+      - name: Create build
         run: |
           npm ci
-          npm_config_yes=true npx semantic-release
+          npm run build
