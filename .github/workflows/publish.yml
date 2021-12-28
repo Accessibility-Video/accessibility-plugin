@@ -14,14 +14,19 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "14"
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci --ignore-scripts
       - name: Create build
         run: |
-          npm ci
           npm run build
-  publish-chrome:
-    runs-on: ubuntu-latest
-    needs: prepare-publish
-    steps:
+
       - name: Pack extension
         uses: TheDoctor0/zip-release@0.6.0
         with:
@@ -44,13 +49,11 @@ jobs:
           name: "Chrome Artifacts"
           path: ./Package.zip
           if-no-files-found: error
-  publish-firefox:
-    runs-on: ubuntu-latest
-    needs: prepare-publish
-    steps:
+
       - name: Create firefox build
         run: |
           rm Package.zip
+          rm -rf dist
           ./firefoxfy.sh
       - name: Pack extension
         uses: TheDoctor0/zip-release@0.6.0
