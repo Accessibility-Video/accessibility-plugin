@@ -27,11 +27,10 @@ jobs:
         run: |
           npm run build
 
-      - name: Pack extension
-        uses: TheDoctor0/zip-release@0.6.0
-        with:
-          path: "./dist"
-          filename: ./Package.zip
+      - name: Pack chrome extension
+        run: |
+          zip -r -FS ./Package.zip dist/*
+
       - name: Upload and publish
         env:
           CHROME_WEB_STORE_APP_ID: ${{ secrets.CHROME_WEB_STORE_APP_ID }}
@@ -54,11 +53,11 @@ jobs:
         run: |
           rm Package.zip
           ./firefoxfy.sh
-      - name: Pack extension
-        uses: TheDoctor0/zip-release@0.6.0
-        with:
-          path: "./dist"
-          filename: ./Package.zip
+
+      - name: Pack firefox extension
+        run: |
+          zip -r -FS ./Package.zip dist/*
+
       - name: Deploy to Firefox
         env:
           FIREFOX_STORE_APP_ID: ${{ secrets.FIREFOX_STORE_APP_ID }}
