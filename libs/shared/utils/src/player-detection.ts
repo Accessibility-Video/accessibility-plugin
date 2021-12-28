@@ -83,7 +83,7 @@ function hasPlayerInElement(element: Element, player: Media.Player): boolean {
             return detectionCallback(element);
         } catch (error) {
             // Todo: implement front-end logging
-            console.log(error.message, player);
+            console.log(error, player);
         }
     }
 

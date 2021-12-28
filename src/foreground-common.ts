@@ -27,7 +27,7 @@ Promise.all([Storage.get(Storage.Key.UserPreference), Document.ready]).then(([pr
     document.addEventListener(EventType.Initialized, () => onChange(messageEvent));
 
     // Inject script
-    const filePath = browser.extension.getURL('video-accessibility.js');
+    const filePath = browser.runtime.getURL('video-accessibility.js');
     const script = document.createElement('script');
     script.setAttribute('type', 'text/javascript');
     script.setAttribute('src', filePath);
