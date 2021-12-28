@@ -16,7 +16,8 @@ jobs:
           node-version: "14"
       - name: Create build
         run: |
-          npm ci && npm run build
+          npm ci
+          npm run build
       - name: Pack extension
         uses: TheDoctor0/zip-release@0.6.0
         with:
@@ -29,30 +30,37 @@ jobs:
           CHROME_WEB_STORE_CLIENT_SECRET: ${{ secrets.CHROME_WEB_STORE_CLIENT_SECRET }}
           CHROME_WEB_STORE_REFRESH_TOKEN: ${{ secrets.CHROME_WEB_STORE_REFRESH_TOKEN }}
         run: |
-          ACCESS_TOKEN=$(curl -X POST https://oauth2.googleapis.com/token -d \
-            "client_id=$CHROME_WEB_STORE_CLIENT_ID&client_secret=$CHROME_WEB_STORE_CLIENT_SECRET&refresh_token=$CHROME_WEB_STORE_REFRESH_TOKEN&grant_type=refresh_token" \
-            | jq '.access_token' -r)
-          curl \
-            -H "Authorization: Bearer $ACCESS_TOKEN"  \
-            -H "x-goog-api-version: 2" \
-            -X PUT \
-            -T Package.zip \
-            https://www.googleapis.com/upload/chromewebstore/v1.1/items/$CHROME_WEB_STORE_APP_ID
-          curl \
-            -H "Authorization: Bearer $ACCESS_TOKEN"  \
-            -H "x-goog-api-version: 2" \
-            -H "Content-Length: 0" \
-            -H "Expect:" \
-            -X GET \
-            https://www.googleapis.com/chromewebstore/v1.1/items/$CHROME_WEB_STORE_APP_ID?projection=draft
-          curl \
-            -H "Authorization: Bearer $ACCESS_TOKEN"  \
-            -H "x-goog-api-version: 2" \
-            -H "Content-Length: 0" \
-            -X POST \
-            https://www.googleapis.com/chromewebstore/v1.1/items/$CHROME_WEB_STORE_APP_ID/publish
-      - name: Drop artifacts
+          ACCESS_TOKEN=$(curl -X POST https://oauth2.googleapis.com/token -d "client_id=$CHROME_WEB_STORE_CLIENT_ID&client_secret=$CHROME_WEB_STORE_CLIENT_SECRET&refresh_token=$CHROME_WEB_STORE_REFRESH_TOKEN&grant_type=refresh_token" | jq '.access_token' -r)
+          curl -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2" -X PUT -T Package.zip https://www.googleapis.com/upload/chromewebstore/v1.1/items/$CHROME_WEB_STORE_APP_ID
+          curl -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2" -H "Content-Length: 0" -H "Expect:" -X GET https://www.googleapis.com/chromewebstore/v1.1/items/$CHROME_WEB_STORE_APP_ID?projection=draft
+          curl -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2" -H "Content-Length: 0" -X POST https://www.googleapis.com/chromewebstore/v1.1/items/$CHROME_WEB_STORE_APP_ID/publish
+      - name: Drop chrome artifacts
         uses: actions/upload-artifact@v2
         with:
           name: "Chrome Artifacts"
           path: ./Package.zip
+          if-no-files-found: error
+      - name: Create firefox build
+        run: |
+          rm Package.zip
+          ./firefoxfy.sh
+      - name: Pack extension
+        uses: TheDoctor0/zip-release@0.6.0
+        with:
+          path: "./dist"
+          filename: ./Package.zip
+      - name: Deploy to Firefox
+        env:
+          FIREFOX_STORE_APP_ID: ${{ secrets.FIREFOX_STORE_APP_ID }}
+          FIREFOX_STORE_JWT_ISSUER: ${{ secrets.FIREFOX_STORE_JWT_ISSUER }}
+          FIREFOX_STORE_JWT_SECRET: ${{ secrets.FIREFOX_STORE_JWT_SECRET }}
+        run: |
+          VERSION_NUMBER=$(jq -r .version ./src/manifest.json)
+          ACCESS_TOKEN=$(npx jwtgen -a HS256 -s ${FIREFOX_STORE_JWT_SECRET} -c "iss=${FIREFOX_STORE_JWT_ISSUER}" -e 300)
+          curl -H "Authorization: JWT ${ACCESS_TOKEN}" -g -XPUT --form "upload=@Package.zip" "https://addons.mozilla.org/api/v4/addons/${FIREFOX_STORE_APP_ID}/versions/${VERSION_NUMBER}/"
+      - name: Drop firefox artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: "Firefox Artifacts"
+          path: ./Package.zip
+          if-no-files-found: error
