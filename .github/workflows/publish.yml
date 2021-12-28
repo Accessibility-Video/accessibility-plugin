@@ -5,24 +5,28 @@ on:
     types: [published]
 
 jobs:
-  prepare-publish:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Install Node.js for publish
         uses: actions/setup-node@v2
         with:
           node-version: "14"
+
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v2
         with:
           path: ./node_modules
           key: modules-${{ hashFiles('package-lock.json') }}
+
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci --ignore-scripts
+
       - name: Create build
         run: |
           npm run build
@@ -31,7 +35,7 @@ jobs:
         run: |
           cd dist && zip -r -FS ../Package.zip *
 
-      - name: Upload and publish
+      - name: Upload and publish to chrome store
         env:
           CHROME_WEB_STORE_APP_ID: ${{ secrets.CHROME_WEB_STORE_APP_ID }}
           CHROME_WEB_STORE_CLIENT_ID: ${{ secrets.CHROME_WEB_STORE_CLIENT_ID }}
@@ -59,7 +63,7 @@ jobs:
         run: |
           cd dist && zip -r -FS ../Package.zip *
 
-      - name: Deploy to Firefox
+      - name: Upload and publish to firefox store
         env:
           FIREFOX_STORE_APP_ID: ${{ secrets.FIREFOX_STORE_APP_ID }}
           FIREFOX_STORE_JWT_ISSUER: ${{ secrets.FIREFOX_STORE_JWT_ISSUER }}
@@ -68,6 +72,7 @@ jobs:
           VERSION_NUMBER=$(jq -r .version ./src/manifest.json)
           ACCESS_TOKEN=$(npx jwtgen -a HS256 -s ${FIREFOX_STORE_JWT_SECRET} -c "iss=${FIREFOX_STORE_JWT_ISSUER}" -e 300)
           curl -H "Authorization: JWT ${ACCESS_TOKEN}" -g -XPUT --form "upload=@Package.zip" "https://addons.mozilla.org/api/v4/addons/${FIREFOX_STORE_APP_ID}/versions/${VERSION_NUMBER}/"
+
       - name: Drop firefox artifacts
         uses: actions/upload-artifact@v2
         with:
