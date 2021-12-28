@@ -1,6 +1,6 @@
 # ![logo](src/assets/images/icon-48x48.png?raw=true "Logo video accessibility")  video accessibility - Browser extension
 
-[![build](https://github.com/Accessibility-Video/accessibility-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/Accessibility-Video/accessibility-plugin/actions/workflows/ci.yml) 
+[![build](https://github.com/Accessibility-Video/accessibility-plugin/actions/workflows/test.yml/badge.svg)](https://github.com/Accessibility-Video/accessibility-plugin/actions/workflows/test.yml) 
 Enables accessibility options for various video players on the web, based on user preferences.
 
 ***
