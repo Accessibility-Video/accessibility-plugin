@@ -1,8 +1,9 @@
 import { EventType, MediaPlayerHandler, MessageEvent, MessageType } from '@scribit/feature/browser-extension';
-import { Document, Media } from '@scribit/shared/utils';
+import { Media } from '@scribit/shared/utils';
+import { Document } from '@scribit/shared/frontend-utils';
 import { Observable } from 'rxjs';
 import { startWith, tap } from 'rxjs/operators';
-import { browser } from 'webextension-polyfill-ts';
+import { runtime } from "webextension-polyfill";
 import { Storage, Watcher } from './helpers';
 
 class VideoAccessibilityHandler extends MediaPlayerHandler {
@@ -27,7 +28,7 @@ Promise.all([Storage.get(Storage.Key.UserPreference), Document.ready]).then(([pr
     document.addEventListener(EventType.Initialized, () => onChange(messageEvent));
 
     // Inject script
-    const filePath = browser.runtime.getURL('video-accessibility.js');
+    const filePath = runtime.getURL('video-accessibility.js');
     const script = document.createElement('script');
     script.setAttribute('type', 'text/javascript');
     script.setAttribute('src', filePath);

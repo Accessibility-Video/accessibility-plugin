@@ -6,10 +6,10 @@
   "version": "1.0.4",
   "manifest_version": 2,
   "icons": {
-    "16": "./assets/images/icon-16x16.png",
-    "32": "./assets/images/icon-32x32.png",
-    "48": "./assets/images/icon-48x48.png",
-    "128": "./assets/images/icon-128x128.png"
+    "16": "icon-16x16.png",
+    "32": "icon-32x32.png",
+    "48": "icon-48x48.png",
+    "128": "icon-128x128.png"
   },
   "background": {
     "scripts": [
@@ -85,6 +85,7 @@
     "assets/images/logo.png",
     "assets/images/icon.svg",
     "assets/styles/variables.css",
-    "video-accessibility.ts"
+    "video-accessibility.ts",
+    "*.js"
   ]
 }

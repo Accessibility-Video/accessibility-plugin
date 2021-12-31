@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { browser, Tabs } from 'webextension-polyfill-ts';
+import { runtime, tabs, Tabs } from 'webextension-polyfill';
 import { mapUserPreferences, Storage } from './helpers';
 
 /**
  *
  */
-browser.runtime.onInstalled.addListener(details => {
+runtime.onInstalled.addListener(details => {
     if (details.reason === 'install') {
         const preferences = mapUserPreferences({}, true);
         Storage.set(Storage.Key.UserPreference, preferences)
@@ -31,7 +31,7 @@ function sendHartBeat(force: boolean = false): void {
 
     shouldSend.then(() => {
         const options = apiRequestOptions(setRequestData({
-            id: browser.runtime.id,
+            id: runtime.id,
         }));
         options.method = 'OPTIONS';
         return fetch('https://accessibility.video', options)
@@ -78,9 +78,9 @@ new Observable<number>(observer => {
         if (changeInfo?.status === 'complete') observer.next(tabId);
     };
 
-    browser.tabs.onUpdated.addListener(callback);
+    tabs.onUpdated.addListener(callback);
 
-    return () => browser.tabs.onUpdated.removeListener(callback);
+    return () => tabs.onUpdated.removeListener(callback);
 }).pipe(debounceTime(1000)).subscribe(tabId => {
-    browser.tabs.sendMessage(tabId, 'UpdatedTab').catch(err => console.warn(err));
+    tabs.sendMessage(tabId, 'UpdatedTab').catch(err => console.warn(err));
 });

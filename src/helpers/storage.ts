@@ -1,6 +1,6 @@
 import { MessageType, UserPreferences } from '@scribit/feature/browser-extension';
 import { A11y, Implements } from '@scribit/shared/types';
-import { browser } from 'webextension-polyfill-ts';
+import { storage } from 'webextension-polyfill';
 import { Message } from './message';
 
 export namespace Storage {
@@ -17,7 +17,7 @@ export namespace Storage {
     export async function get<T extends Key>(key: T): Promise<ValueMap[T]> {
         let value: any;
         try {
-            const values = await browser.storage.local.get(key);
+            const values = await storage.local.get(key);
             value = values[key];
         } catch (error) {
             console.warn(error);
@@ -42,7 +42,7 @@ export namespace Storage {
                 break;
         }
 
-        return browser.storage.local.set({ [key]: value }).then(() => {
+        return storage.local.set({ [key]: value }).then(() => {
             onSuccesCallbacks.forEach(cb => cb(key, value));
         });
     }

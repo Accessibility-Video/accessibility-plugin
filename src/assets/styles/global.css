@@ -2,9 +2,9 @@
 
 @font-face {
     font-family: 'Scribit Icons';
-    src: url(../fonts/Scribit-Icons.ttf?bkbary) format('truetype'),
-    url(../fonts/Scribit-Icons.woff?bkbary) format('woff'),
-    url(../fonts/Scribit-Icons.svg?bkbary#Scribit-Icons) format('svg');
+    src: url(../fonts/scribit-icons.ttf?bkbary) format('truetype'),
+    url(../fonts/scribit-icons.woff?bkbary) format('woff'),
+    url(../fonts/scribit-icons.svg?bkbary#Scribit-Icons) format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: block;

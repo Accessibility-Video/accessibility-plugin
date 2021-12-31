@@ -4,7 +4,7 @@ import { html, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js'
 import { camelCase } from 'lodash'
 import { BaseComponent } from './base-component';
-import { Storage, t } from '../helpers';
+import { t, Storage } from '../helpers';
 
 @customElement('scribit-extension-options')
 export class Popup extends BaseComponent {

@@ -6,7 +6,8 @@
     "paths": {
       "@scribit/feature/browser-extension": ["libs/feature/browser-extension/src/index.ts"],
       "@scribit/shared/types": ["libs/shared/types/src/index.ts"],
-      "@scribit/shared/utils": ["libs/shared/utils/src/index.ts"]
+      "@scribit/shared/utils": ["libs/shared/utils/src/index.ts"],
+      "@scribit/shared/frontend-utils": ["libs/shared/frontend-utils/src/index.ts"]
     },
     "sourceMap": true,
     "lib": ["es2017", "dom", "es2019.array"],
