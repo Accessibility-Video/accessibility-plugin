@@ -1,7 +1,6 @@
 import { MessageType, MessageEvent } from '@scribit/feature/browser-extension';
 import { Observable, Subject } from 'rxjs';
 import { finalize, share, tap } from 'rxjs/operators';
-import { browser } from 'webextension-polyfill-ts';
 import { Message } from './message';
 import { Storage } from './storage';
 
@@ -24,7 +23,7 @@ export class Watcher {
             }),
             finalize(() => {
                 if (!Watcher.subject.observers.length) {
-                    browser.runtime.onMessage.removeListener(Watcher.handleListener);
+                    Message.removeListener(Watcher.handleListener);
                 }
             }),
         );

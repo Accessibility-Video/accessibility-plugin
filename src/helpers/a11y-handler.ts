@@ -7,8 +7,8 @@ import { Storage } from './storage';
 
 const initializer = Promise.all([
     Storage.get(Storage.Key.UserPreference),
-    Document.ready,
-]).then(([preferences, _]) => ({
+    Document.ready
+]).then(([preferences]) => ({
     messageType: MessageType.UpdatedUserPreferences,
     preferences,
 }));

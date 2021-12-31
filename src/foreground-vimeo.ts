@@ -1,6 +1,6 @@
 import { BasePlayer } from '@scribit/feature/browser-extension';
 import { Options, Player } from '@vimeo/player';
-import { A11yHandler } from './helpers';
+import { A11yHandler } from './helpers/a11y-handler';
 
 class Vimeo extends BasePlayer {
     /**

@@ -1,5 +1,5 @@
 import { BasePlayer } from '@scribit/feature/browser-extension';
-import { A11yHandler } from './helpers';
+import { A11yHandler } from './helpers/a11y-handler';
 
 class Youtube extends BasePlayer {
     /**

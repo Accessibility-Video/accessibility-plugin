@@ -1,5 +1,5 @@
-import { browser } from 'webextension-polyfill-ts';
+import { i18n } from 'webextension-polyfill';
 
 export function t(messageName: string): string {
-    return browser.i18n.getMessage(messageName);
+    return i18n.getMessage(messageName);
 }

@@ -25,7 +25,7 @@ export default commandLineArgs => {
                     }
                 },
             },
-            chromeExtension({ browserPolyfill: true }),
+            chromeExtension(),
             copy({
                 hook: 'generateBundle',
                 targets: [
@@ -78,13 +78,12 @@ export default commandLineArgs => {
                     plugins: plugins,
                 });
 
-                bundle.watchFiles.forEach((file) => {
-                    this.addWatchFile(file);
-                });
+                bundle.watchFiles.forEach(this.addWatchFile);
 
                 // Change output format so we can inject this in websites
                 const generator = await bundle.generate({
                     format: 'iife',
+                    name: 'VideoAccessibilityPlugin',
                     preserveModules: false,
                 });
 

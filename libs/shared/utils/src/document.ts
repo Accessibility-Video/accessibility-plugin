@@ -7,8 +7,12 @@ export namespace Document {
      */
     export const ready = new Promise<void>(resolve => {
         const readyStateInterval = setInterval(function() {
-            if (document.readyState === 'complete') {
-                clearInterval(readyStateInterval);
+            try {
+                if (document.readyState === 'complete') {
+                    clearInterval(readyStateInterval);
+                    resolve();
+                }
+            } catch {
                 resolve();
             }
         }, 25);

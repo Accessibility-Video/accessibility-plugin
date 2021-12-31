@@ -1,6 +1,6 @@
 import { MessageType } from '@scribit/feature/browser-extension';
 import { Implements } from '@scribit/shared/types';
-import { browser, Runtime } from 'webextension-polyfill-ts';
+import { Runtime, runtime } from "webextension-polyfill";
 
 export namespace Message {
     interface ValueMap extends Implements<Record<MessageType, any>, ValueMap> {
@@ -14,13 +14,17 @@ export namespace Message {
      *
      */
     export function addListener<T extends MessageType>(callback: (message: T, sender: Runtime.MessageSender) => Promise<ValueMap[T]> | void): void {
-        return browser.runtime.onMessage.addListener(callback);
+        return runtime.onMessage.addListener(callback);
+    }
+
+    export function removeListener<T extends MessageType>(callback: (message: T, sender: Runtime.MessageSender) => Promise<ValueMap[T]> | void): void {
+        return runtime.onMessage.removeListener(callback);
     }
 
     /**
      *
      */
     export function send<T extends MessageType>(message: T): Promise<ValueMap[T]> {
-        return browser.runtime.sendMessage(message);
+        return runtime.sendMessage(message);
     }
 }

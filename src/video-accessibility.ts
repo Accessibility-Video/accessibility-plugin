@@ -1,7 +1,6 @@
-import { EventType, MediaPlayerHandler, MessageEvent } from '@scribit/feature/browser-extension';
+import { EventType, MediaPlayerHandler, MessageEvent, Scribit } from '@scribit/feature/browser-extension';
 import { Media } from '@scribit/shared/utils';
 import { Observable } from 'rxjs';
-import { Scribit } from "../libs/feature/browser-extension/src/players/scribit-pro-widget";
 
 export class VideoAccessibilityHandler extends MediaPlayerHandler {
     constructor(watcher: Observable<MessageEvent>) {
