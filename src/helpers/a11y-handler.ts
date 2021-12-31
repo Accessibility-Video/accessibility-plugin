@@ -1,6 +1,6 @@
 import { A11yHandler as BaseA11yHandler, MessageType } from '@scribit/feature/browser-extension';
 import { A11y } from '@scribit/shared/types';
-import { Document } from '@scribit/shared/utils';
+import { Document } from '@scribit/shared/frontend-utils';
 import { from, merge } from 'rxjs';
 import { Watcher } from './watcher';
 import { Storage } from './storage';
