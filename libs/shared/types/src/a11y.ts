@@ -6,9 +6,9 @@ export namespace A11y {
      * List of supported accessibility features.
      */
     export enum Feature {
-        AD = 'audio description',
         CC = 'closed captioning',
         SL = 'sign language',
+        AD = 'audio description',
         TA = 'text alternative',
     }
 

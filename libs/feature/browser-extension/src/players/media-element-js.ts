@@ -36,7 +36,7 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
      */
     protected toggleTextAlternative(enabled: boolean): void {
         for (let player of this.players) {
-            const position = this.getFeaturePosition(player, 'transcript');
+            const position = MediaElementJS.getFeaturePosition(player, 'transcript');
             if (position) {
                 this.adjustFeature('transcript', enabled);
                 continue;
@@ -59,7 +59,7 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
         }
     }
 
-    private getFeaturePosition(player: MeJS.Player, feature: string): number | undefined {
+    private static getFeaturePosition(player: MeJS.Player, feature: string): number | undefined {
         return player.featurePosition[feature];
     }
 
@@ -68,7 +68,7 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
      */
     private adjustFeature(feature: string, enabled: boolean): void {
         for (let player of this.players) {
-            const position = this.getFeaturePosition(player, feature);
+            const position = MediaElementJS.getFeaturePosition(player, feature);
             if (!position) continue;
 
             const control = player.controls.children[position];

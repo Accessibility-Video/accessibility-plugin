@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { Observable, debounceTime } from "rxjs";
 import { runtime, tabs, Tabs } from 'webextension-polyfill';
 import { mapUserPreferences, Storage } from './helpers';
+import { MessageType } from "@scribit/feature/browser-extension";
 
 /**
  *
@@ -73,14 +73,18 @@ function apiRequestOptions(options?: Partial<RequestInit>): RequestInit {
 /**
  *
  */
-new Observable<number>(observer => {
-    const callback = function(tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType) {
-        if (changeInfo?.status === 'complete') observer.next(tabId);
+new Observable<number>(subscriber => {
+    const callback = (
+        tabId: number,
+        changeInfo: Tabs.OnUpdatedChangeInfoType
+    ) => {
+        return changeInfo?.status === "complete" && subscriber.next(tabId);
     };
 
     tabs.onUpdated.addListener(callback);
 
     return () => tabs.onUpdated.removeListener(callback);
-}).pipe(debounceTime(1000)).subscribe(tabId => {
-    tabs.sendMessage(tabId, 'UpdatedTab').catch(err => console.warn(err));
+}).pipe(debounceTime(1000)).subscribe({
+    next: async (tabId) => tabs.sendMessage(tabId, MessageType.UpdatedTab),
+    error: (err: unknown) => console.warn(err)
 });

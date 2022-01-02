@@ -34,3 +34,30 @@ jobs:
       - name: Test
         run: |
           npm run test
+
+      - name: Pack chrome extension
+        run: |
+          cd dist && zip -r -FS ../Package.zip *
+
+      - name: Drop chrome artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: "Chrome Artifacts"
+          path: ./Package.zip
+          if-no-files-found: error
+
+      - name: Create firefox build
+        run: |
+          rm Package.zip
+          ./firefoxfy.sh
+
+      - name: Pack firefox extension
+        run: |
+          cd dist && zip -r -FS ../Package.zip *
+
+      - name: Drop firefox artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: "Firefox Artifacts"
+          path: ./Package.zip
+          if-no-files-found: error
