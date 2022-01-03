@@ -1,7 +1,6 @@
 import { Observable, debounceTime } from "rxjs";
 import { runtime, tabs, Tabs } from "webextension-polyfill";
-import { Storage } from "./helpers";
-import { MessageType } from "@scribit/feature/browser-extension";
+import { Storage, mapUserPreferences } from "./helpers";
 import { MessageType } from "@scribit/feature/browser-extension";
 
 /**
@@ -9,7 +8,7 @@ import { MessageType } from "@scribit/feature/browser-extension";
  */
 runtime.onInstalled.addListener((details) => {
     if (details.reason === "install") {
-        const preferences = Storage.mapUserPreferences({}, true);
+        const preferences = mapUserPreferences({}, true);
         Storage.set(Storage.Key.UserPreference, preferences).catch((error: unknown) =>
             console.warn("could not set initial preferences", error)
         );

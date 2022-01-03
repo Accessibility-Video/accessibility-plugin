@@ -8,7 +8,7 @@ export class ScribitProWidget extends FrameworkPlayer<Scribit.Bar> implements IP
      * to a VideoJS player instance.
      */
     protected getScanResults(): Scribit.Bar[] {
-        return window.scribit.widget?.bars || [];
+        return window.scribit?.widget?.bars || [];
     }
     /**
      * @inheritDoc

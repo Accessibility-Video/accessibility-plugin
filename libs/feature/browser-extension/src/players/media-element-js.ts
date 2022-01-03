@@ -104,27 +104,6 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements IPla
             }
         }
     }
-
-    /**
-     *
-     */
-    private adjustCC(enabled: boolean): void {
-        const feature = "tracks";
-        for (const player of this.players) {
-            const position = MediaElementJS.getFeaturePosition(player, feature);
-            if (!position) continue;
-
-            const control = player.controls.children[position];
-            const button = control.getElementsByTagName("button")[0];
-            if (!button) continue;
-
-            const state = control.classList.contains(`mejs__captions-enabled`);
-            if (enabled !== state) {
-                button.dispatchEvent(new Event("mousedown"));
-                button.click();
-            }
-        }
-    }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
