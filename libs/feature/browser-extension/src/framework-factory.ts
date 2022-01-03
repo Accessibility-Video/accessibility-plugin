@@ -5,7 +5,7 @@ import { JWPlayer, MediaElementJS, VideoJS, ScribitProWidget } from "./players";
 type FactoryResult = IPlayer & A11y.Toggle;
 
 const checkPlayerIsFramework = (player: Media.Player): player is Media.Framework =>
-    player in Media.Framework;
+    Object.values(Media.Framework).includes(player as Media.Framework);
 
 /**
  *
@@ -44,14 +44,13 @@ export class FrameworkFactory implements PlayerFactory {
      */
     public create(player: Media.Player) {
         if (!checkPlayerIsFramework(player)) {
-            throw new Error("not supported");
+            throw new Error(`Player ${player} is not a framework`);
         }
         const instances = FrameworkFactory.instances;
         if (!instances[player] && FrameworkFactory.instanceMap[player]) {
             instances[player] = FrameworkFactory.instanceMap[player];
-            return instances[player] as FactoryResult;
         }
 
-        throw new Error("not supported");
+        return instances[player] as FactoryResult;
     }
 }
