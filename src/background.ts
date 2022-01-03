@@ -2,6 +2,7 @@ import { Observable, debounceTime } from "rxjs";
 import { runtime, tabs, Tabs } from "webextension-polyfill";
 import { Storage } from "./helpers";
 import { MessageType } from "@scribit/feature/browser-extension";
+import { MessageType } from "@scribit/feature/browser-extension";
 
 /**
  *

@@ -7,11 +7,11 @@ class Vimeo extends BasePlayer {
      *
      */
     private get player(): Element {
-        let player: Element | null;
+        let player: Element | null | undefined;
         if (location.host.startsWith("player.")) {
             player = document.getElementById("player");
         } else {
-            player = document.getElementById("main")!.querySelector(".player");
+            player = document.getElementById("main")?.querySelector(".player");
         }
 
         if (!player) {
