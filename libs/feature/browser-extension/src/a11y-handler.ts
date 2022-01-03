@@ -1,5 +1,5 @@
 import { A11y } from '@scribit/shared/types';
-import { Observable } from 'rxjs';
+import { Observable } from "rxjs";
 import { MessageEvent, MessageType, UserPreferences } from './@types';
 
 export abstract class A11yHandler implements A11y.Toggle {
@@ -11,28 +11,28 @@ export abstract class A11yHandler implements A11y.Toggle {
      */
     protected constructor(watcher: Observable<MessageEvent>) {
         watcher = this.transformWatcher(watcher);
-        setTimeout(() => watcher.subscribe(event => {
-            let disables = false;
-            if (event.messageType === MessageType.UpdatedUserPreferences) {
-                this.preferences = (event as MessageEvent<MessageType.UpdatedUserPreferences>).preferences;
-                disables = true;
-            }
-            if (this.preferences) {
-                const keys = Object.keys(this.preferences) as Array<keyof UserPreferences>;
-                const handler = function(promise: Promise<any>) {
-                    promise.catch(error => console.warn('', error));
-                };
+        watcher.subscribe({
+            next: async (event) => {
+                let disables = false;
+                if (event.messageType === MessageType.UpdatedUserPreferences) {
+                    this.preferences = (event as MessageEvent<MessageType.UpdatedUserPreferences>).preferences;
+                    disables = true;
+                }
+                if (this.preferences) {
+                    const keys = Object.keys(this.preferences) as Array<keyof UserPreferences>;
 
-                for (const key of keys) {
-                    const feature = A11y.Feature[key];
-                    if (this.preferences[key]) {
-                        handler(this.enable(feature));
-                    } else if (disables) {
-                        handler(this.disable(feature));
+                    for (const key of keys) {
+                        const feature = A11y.Feature[key];
+                        if (this.preferences[key]) {
+                            await this.enable(feature);
+                        } else if (disables) {
+                            await this.disable(feature);
+                        }
                     }
                 }
-            }
-        }));
+            },
+            error: (err: unknown) => console.warn(err)
+        });
     }
 
     /**

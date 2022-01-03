@@ -5,9 +5,7 @@ import { Observable } from 'rxjs';
 export class VideoAccessibilityHandler extends MediaPlayerHandler {
     constructor(watcher: Observable<MessageEvent>) {
         super(watcher, Object.values(Media.Framework));
-
-        const event = document.createEvent('Event');
-        event.initEvent(EventType.Initialized);
+        const event = new Event(EventType.Initialized);
         // Dispatch event after watcher is subscribed in super constructor
         setTimeout(() => document.dispatchEvent(event));
     }

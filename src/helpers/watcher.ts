@@ -1,48 +1,30 @@
-import { MessageType, MessageEvent } from '@scribit/feature/browser-extension';
-import { Observable, Subject } from 'rxjs';
-import { finalize, share, tap } from 'rxjs/operators';
-import { Message } from './message';
-import { Storage } from './storage';
+import { MessageEvent, MessageType } from "@scribit/feature/browser-extension";
+import { Observable, share, Subscriber } from "rxjs";
+import { Message } from "./message";
+import { Storage } from "./storage";
 
-/**
- *
- */
+const handleListener =
+    (subscriber: Subscriber<MessageEvent>) =>
+        async (messageType: MessageType) => {
+            switch (messageType) {
+                case MessageType.UpdatedUserPreferences:
+                case MessageType.UpdatedTab:
+                    const preferences = await Storage.get(Storage.Key.UserPreference);
+                    subscriber.next({
+                        messageType,
+                        preferences,
+                    });
+                    break;
+            }
+        };
+
 export class Watcher {
-    private static readonly subject = new Subject<MessageEvent>();
-
-    /**
-     *
-     */
     public static get observable(): Observable<MessageEvent> {
-        return Watcher.subject.asObservable().pipe(
-            share(),
-            tap(() => {
-                if (Watcher.subject.observers.length === 1) {
-                    Message.addListener(Watcher.handleListener);
-                }
-            }),
-            finalize(() => {
-                if (!Watcher.subject.observers.length) {
-                    Message.removeListener(Watcher.handleListener);
-                }
-            }),
-        );
-    }
+        return new Observable<MessageEvent>((subscriber) => {
+            const listener = handleListener(subscriber);
+            Message.addListener(listener);
 
-    /**
-     *
-     */
-    private static handleListener(messageType: MessageType) {
-        switch (messageType) {
-            case MessageType.UpdatedUserPreferences:
-                Storage.get(Storage.Key.UserPreference).then(preferences => Watcher.subject.next({
-                    messageType,
-                    preferences,
-                }));
-                break;
-            case MessageType.UpdatedTab:
-                Watcher.subject.next({ messageType });
-                break;
-        }
+            return () => Message.removeListener(listener);
+        }).pipe(share());
     }
 }

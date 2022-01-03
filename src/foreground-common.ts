@@ -1,10 +1,10 @@
-import { EventType, MediaPlayerHandler, MessageEvent, MessageType } from '@scribit/feature/browser-extension';
-import { Media } from '@scribit/shared/utils';
+import { EventType, MediaPlayerHandler, MessageEvent, MessageType } from "@scribit/feature/browser-extension";
 import { Document } from '@scribit/shared/frontend-utils';
 import { Observable } from 'rxjs';
 import { startWith, tap } from 'rxjs/operators';
 import { runtime } from "webextension-polyfill";
-import { Storage, Watcher } from './helpers';
+import { Storage, Watcher } from "./helpers";
+import { Media } from "@scribit/shared/utils";
 
 class VideoAccessibilityHandler extends MediaPlayerHandler {
     public constructor(watcher: Observable<MessageEvent>) {

@@ -21,7 +21,7 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
      * @inheritDoc
      */
     protected toggleClosedCaptioning(enabled: boolean): void {
-        this.adjustFeature('tracks', enabled);
+        this.adjustCC(enabled);
     }
 
     /**
@@ -36,7 +36,7 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
      */
     protected toggleTextAlternative(enabled: boolean): void {
         for (let player of this.players) {
-            const position = this.getFeaturePosition(player, 'transcript');
+            const position = MediaElementJS.getFeaturePosition(player, 'transcript');
             if (position) {
                 this.adjustFeature('transcript', enabled);
                 continue;
@@ -59,7 +59,7 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
         }
     }
 
-    private getFeaturePosition(player: MeJS.Player, feature: string): number | undefined {
+    private static getFeaturePosition(player: MeJS.Player, feature: string): number | undefined {
         return player.featurePosition[feature];
     }
 
@@ -68,7 +68,7 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
      */
     private adjustFeature(feature: string, enabled: boolean): void {
         for (let player of this.players) {
-            const position = this.getFeaturePosition(player, feature);
+            const position = MediaElementJS.getFeaturePosition(player, feature);
             if (!position) continue;
 
             const control = player.controls.children[position];
@@ -76,6 +76,27 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
             if (!button) continue;
 
             const state = control.classList.contains(`${feature}-on`);
+            if (enabled !== state) {
+                button.dispatchEvent(new Event('mousedown'));
+                button.click();
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    private adjustCC(enabled: boolean): void {
+        const feature = 'tracks';
+        for (let player of this.players) {
+            const position = MediaElementJS.getFeaturePosition(player, feature);
+            if (!position) continue;
+
+            const control = player.controls.children[position];
+            const button = control.getElementsByTagName('button')[0];
+            if (!button) continue;
+
+            const state = control.classList.contains(`mejs__captions-enabled`);
             if (enabled !== state) {
                 button.dispatchEvent(new Event('mousedown'));
                 button.click();
