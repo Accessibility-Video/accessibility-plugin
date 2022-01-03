@@ -1,4 +1,4 @@
-import { BasePlayer } from './base-player';
+import { BasePlayer } from "./base-player";
 
 export abstract class FrameworkPlayer<T> extends BasePlayer {
     protected players: T[] = [];
@@ -11,8 +11,8 @@ export abstract class FrameworkPlayer<T> extends BasePlayer {
     }
 
     /*
-    * Should detect player elements within the given element.
-    */
+     * Should detect player elements within the given element.
+     */
     public scan(element: Element): void {
         this.players = this.getScanResults(element);
     }

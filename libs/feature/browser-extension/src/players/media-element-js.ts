@@ -1,20 +1,21 @@
-import { A11y } from '@scribit/shared/types';
-import { FrameworkPlayer } from './framework-player';
+import { FrameworkPlayer } from "./framework-player";
+import { IPlayer } from "@scribit/shared/utils";
+import { A11y } from "@scribit/shared/types";
 
-export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y.Toggle {
+export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements IPlayer, A11y.Toggle {
     /**
      * returns an array of objects, each object is a reference
      * to a MediaElement player instance.
      */
     protected getScanResults(): MeJS.Player[] {
-        return Object.values(window.mejs.players);
+        return Object.values(window.mejs?.players || []);
     }
 
     /**
      * @inheritDoc
      */
     protected toggleAudioDescription(enabled: boolean): void {
-        this.adjustFeature('audio-description', enabled);
+        this.adjustFeature("audio-description", enabled);
     }
 
     /**
@@ -28,32 +29,32 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
      * @inheritDoc
      */
     protected toggleSignLanguage(enabled: boolean): void {
-        this.adjustFeature('video-description', enabled);
+        this.adjustFeature("video-description", enabled);
     }
 
     /**
      * @inheritDoc
      */
     protected toggleTextAlternative(enabled: boolean): void {
-        for (let player of this.players) {
-            const position = MediaElementJS.getFeaturePosition(player, 'transcript');
+        for (const player of this.players) {
+            const position = MediaElementJS.getFeaturePosition(player, "transcript");
             if (position) {
-                this.adjustFeature('transcript', enabled);
+                this.adjustFeature("transcript", enabled);
                 continue;
             }
 
             const sibling: Element | null = player.container.nextElementSibling;
-            if (!sibling || !sibling.classList.contains('transcript')) continue;
+            if (!sibling || !sibling.classList.contains("transcript")) continue;
 
-            const toggle = sibling.querySelector<HTMLElement>('[aria-expanded]');
-            if (!toggle || !toggle.click || !toggle.getAttribute('id')) continue;
+            const toggle = sibling.querySelector<HTMLElement>("[aria-expanded]");
+            if (!toggle || !toggle.click || !toggle.getAttribute("id")) continue;
 
-            const state = toggle.getAttribute('aria-expanded');
+            const state = toggle.getAttribute("aria-expanded");
             if (!state) continue;
 
-            const expanded = state === 'true';
+            const expanded = state === "true";
             if (enabled !== expanded) {
-                toggle.dispatchEvent(new Event('mousedown'));
+                toggle.dispatchEvent(new Event("mousedown"));
                 toggle.click();
             }
         }
@@ -67,17 +68,17 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
      *
      */
     private adjustFeature(feature: string, enabled: boolean): void {
-        for (let player of this.players) {
+        for (const player of this.players) {
             const position = MediaElementJS.getFeaturePosition(player, feature);
             if (!position) continue;
 
             const control = player.controls.children[position];
-            const button = control.getElementsByTagName('button')[0];
+            const button = control.getElementsByTagName("button")[0];
             if (!button) continue;
 
             const state = control.classList.contains(`${feature}-on`);
             if (enabled !== state) {
-                button.dispatchEvent(new Event('mousedown'));
+                button.dispatchEvent(new Event("mousedown"));
                 button.click();
             }
         }
@@ -87,43 +88,43 @@ export class MediaElementJS extends FrameworkPlayer<MeJS.Player> implements A11y
      *
      */
     private adjustCC(enabled: boolean): void {
-        const feature = 'tracks';
-        for (let player of this.players) {
+        const feature = "tracks";
+        for (const player of this.players) {
             const position = MediaElementJS.getFeaturePosition(player, feature);
             if (!position) continue;
 
             const control = player.controls.children[position];
-            const button = control.getElementsByTagName('button')[0];
+            const button = control.getElementsByTagName("button")[0];
             if (!button) continue;
 
             const state = control.classList.contains(`mejs__captions-enabled`);
             if (enabled !== state) {
-                button.dispatchEvent(new Event('mousedown'));
+                button.dispatchEvent(new Event("mousedown"));
                 button.click();
             }
         }
     }
 }
 
-
-namespace MeJS {
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace MeJS {
     export interface Player {
         container: HTMLDivElement;
         controls: HTMLDivElement;
         featurePosition: {
             [key: string]: number;
-        }
+        };
 
-        [key: string]: any;
+        [key: string]: unknown;
     }
 
     export type Instance = {
         players: Player[];
-    }
+    };
 }
 
 declare global {
     interface Window {
-        mejs: MeJS.Instance;
+        mejs?: MeJS.Instance;
     }
 }

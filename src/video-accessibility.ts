@@ -1,6 +1,11 @@
-import { EventType, MediaPlayerHandler, MessageEvent, Scribit } from '@scribit/feature/browser-extension';
-import { Media } from '@scribit/shared/utils';
-import { Observable } from 'rxjs';
+import {
+    EventType,
+    MediaPlayerHandler,
+    MessageEvent,
+    Scribit
+} from "@scribit/feature/browser-extension";
+import { Media } from "@scribit/shared/utils";
+import { Observable } from "rxjs";
 
 export class VideoAccessibilityHandler extends MediaPlayerHandler {
     constructor(watcher: Observable<MessageEvent>) {
@@ -12,12 +17,12 @@ export class VideoAccessibilityHandler extends MediaPlayerHandler {
 }
 
 if (!window.scribit) {
-    (<any>window).scribit = {};
+    window.scribit = {};
 }
 
 if (!window.scribit.extension) {
-    const watcher = new Observable<MessageEvent>(observer => {
-        const handleListener = function(event: Event) {
+    const watcher = new Observable<MessageEvent>((observer) => {
+        const handleListener = function (event: Event) {
             observer.next((event as CustomEvent<MessageEvent>).detail);
         };
         document.addEventListener(EventType.Changed, handleListener, false);
@@ -29,10 +34,9 @@ if (!window.scribit.extension) {
 
 declare global {
     interface Window {
-        scribit: {
-            extension: VideoAccessibilityHandler;
+        scribit?: {
+            extension?: VideoAccessibilityHandler;
             widget?: Scribit.Widget;
         };
     }
 }
-

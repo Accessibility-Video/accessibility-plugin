@@ -1,16 +1,17 @@
 import { Observable, debounceTime } from "rxjs";
-import { runtime, tabs, Tabs } from 'webextension-polyfill';
-import { mapUserPreferences, Storage } from './helpers';
+import { runtime, tabs, Tabs } from "webextension-polyfill";
+import { Storage } from "./helpers";
 import { MessageType } from "@scribit/feature/browser-extension";
 
 /**
  *
  */
-runtime.onInstalled.addListener(details => {
-    if (details.reason === 'install') {
-        const preferences = mapUserPreferences({}, true);
-        Storage.set(Storage.Key.UserPreference, preferences)
-            .catch(error => console.warn('could not set initial preferences', error));
+runtime.onInstalled.addListener((details) => {
+    if (details.reason === "install") {
+        const preferences = Storage.mapUserPreferences({}, true);
+        Storage.set(Storage.Key.UserPreference, preferences).catch((error: unknown) =>
+            console.warn("could not set initial preferences", error)
+        );
     }
 
     sendHartBeat(true);
@@ -19,37 +20,43 @@ runtime.onInstalled.addListener(details => {
 /**
  *
  */
-function sendHartBeat(force: boolean = false): void {
-    const shouldSend = force ? Promise.resolve() : Storage.get(Storage.Key.Heartbeat).then(value => {
-        const oneWeekAgo = new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000));
+function sendHartBeat(force = false): void {
+    const shouldSend = force
+        ? Promise.resolve()
+        : Storage.get(Storage.Key.Heartbeat).then((value: string | undefined) => {
+              const oneWeekAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
 
-        if (!value || new Date(value) > oneWeekAgo) {
-            return Promise.reject('time is within threshold');
-        }
-        return;
-    });
+              if (!value || new Date(value) > oneWeekAgo) {
+                  return Promise.reject("time is within threshold");
+              }
+              return;
+          });
 
-    shouldSend.then(() => {
-        const options = apiRequestOptions(setRequestData({
-            id: runtime.id,
-        }));
-        options.method = 'OPTIONS';
-        return fetch('https://accessibility.video', options)
-            .then(() => Storage.set(Storage.Key.Heartbeat, new Date().toISOString()));
-    }).catch(err => console.warn('hart beat not send', err));
-
+    shouldSend
+        .then(() => {
+            const options = apiRequestOptions(
+                setRequestData({
+                    id: runtime.id
+                })
+            );
+            options.method = "OPTIONS";
+            return fetch("https://accessibility.video", options).then(() =>
+                Storage.set(Storage.Key.Heartbeat, new Date().toISOString())
+            );
+        })
+        .catch((err: unknown) => console.warn("hart beat not send", err));
 }
 
 /**
  *
  */
-function setRequestData(data: any): Pick<RequestInit, 'body' | 'headers'> {
-    let body: RequestInit['body'];
-    let headers: Headers = new Headers();
+function setRequestData(data: Record<string, unknown>): Pick<RequestInit, "body" | "headers"> {
+    let body: RequestInit["body"];
+    const headers: Headers = new Headers();
 
     switch (typeof data) {
-        case 'object':
-            headers.set('Content-Type', 'application/json');
+        case "object":
+            headers.set("Content-Type", "application/json");
             body = JSON.stringify(data);
             break;
     }
@@ -62,9 +69,9 @@ function setRequestData(data: any): Pick<RequestInit, 'body' | 'headers'> {
  */
 function apiRequestOptions(options?: Partial<RequestInit>): RequestInit {
     const defaultRequestOptions: RequestInit = {
-        method: 'POST',
+        method: "POST",
         headers: {},
-        mode: 'cors',
+        mode: "cors"
     };
 
     return { ...defaultRequestOptions, ...options };
@@ -73,18 +80,17 @@ function apiRequestOptions(options?: Partial<RequestInit>): RequestInit {
 /**
  *
  */
-new Observable<number>(subscriber => {
-    const callback = (
-        tabId: number,
-        changeInfo: Tabs.OnUpdatedChangeInfoType
-    ) => {
+new Observable<number>((subscriber) => {
+    const callback = (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType) => {
         return changeInfo?.status === "complete" && subscriber.next(tabId);
     };
 
     tabs.onUpdated.addListener(callback);
 
     return () => tabs.onUpdated.removeListener(callback);
-}).pipe(debounceTime(1000)).subscribe({
-    next: async (tabId) => tabs.sendMessage(tabId, MessageType.UpdatedTab),
-    error: (err: unknown) => console.warn(err)
-});
+})
+    .pipe(debounceTime(1000))
+    .subscribe({
+        next: async (tabId) => tabs.sendMessage(tabId, MessageType.UpdatedTab),
+        error: (err: unknown) => console.warn(err)
+    });

@@ -1,23 +1,27 @@
-import { A11y } from '@scribit/shared/types';
-import { FrameworkPlayer } from './framework-player';
-import videojs from 'video.js';
+import { FrameworkPlayer } from "./framework-player";
+import videojs from "video.js";
+import { IPlayer } from "@scribit/shared/utils";
+import { A11y } from "@scribit/shared/types";
 
-export class VideoJS extends FrameworkPlayer<videojs.Player> implements A11y.Toggle {
+export class VideoJS extends FrameworkPlayer<videojs.Player> implements IPlayer, A11y.Toggle {
     /**
      * returns a array of objects, each object is a reference
      * to a VideoJS player instance.
      */
     protected getScanResults(): videojs.Player[] {
-        return Object.values(window.videojs.players);
+        return Object.values(window.videojs?.players || []);
     }
     /**
      * @inheritDoc
      */
     protected toggleAudioDescription(enabled: boolean): void {
-        playerLoop: for (let player of this.players) {
+        playerLoop: for (const player of this.players) {
             const tracks = player.tech().audioTracks();
-            for (let track of Array.from<any>(tracks)) {
-                if (track.kind === 'descriptions') {
+            for (const track of Array.from<{
+                kind: string;
+                enabled?: boolean;
+            }>(tracks)) {
+                if (track.kind === "descriptions") {
                     track.enabled = enabled;
                     continue playerLoop;
                 }
@@ -31,7 +35,7 @@ export class VideoJS extends FrameworkPlayer<videojs.Player> implements A11y.Tog
     protected toggleClosedCaptioning(enabled: boolean): void {
         playerLoop: for (const player of this.players) {
             const tracks = player.textTracks();
-            for (let track of Array.from(tracks)) {
+            for (const track of Array.from(tracks)) {
                 if (this.toggleCaptionsTrack(enabled, track) !== undefined) {
                     continue playerLoop;
                 }
@@ -41,10 +45,10 @@ export class VideoJS extends FrameworkPlayer<videojs.Player> implements A11y.Tog
             // listener which will listen until a captions text track is added.
             const handleAddTrackEvent = (event: TrackEvent) => {
                 if (event.track && this.toggleCaptionsTrack(enabled, event.track) !== undefined) {
-                    tracks.removeEventListener('addtrack', handleAddTrackEvent);
+                    tracks.removeEventListener("addtrack", handleAddTrackEvent);
                 }
             };
-            tracks.addEventListener('addtrack', handleAddTrackEvent);
+            tracks.addEventListener("addtrack", handleAddTrackEvent);
         }
     }
 
@@ -55,18 +59,18 @@ export class VideoJS extends FrameworkPlayer<videojs.Player> implements A11y.Tog
      * Return true if mode of the captions track has been changed.
      */
     private toggleCaptionsTrack(enabled: boolean, track: TextTrack): boolean | undefined {
-        if (track.kind === 'captions') {
-            const mode = enabled ? 'showing' : 'disabled';
+        if (track.kind === "captions") {
+            const mode = enabled ? "showing" : "disabled";
             if (track.mode === mode) {
                 return false;
             }
 
             track.mode = mode;
             const handleCueChangeEvent = () => {
-                track.removeEventListener('cuechange', handleCueChangeEvent);
+                track.removeEventListener("cuechange", handleCueChangeEvent);
                 track.mode = mode;
             };
-            track.addEventListener('cuechange', handleCueChangeEvent);
+            track.addEventListener("cuechange", handleCueChangeEvent);
 
             return true;
         }
@@ -76,6 +80,9 @@ export class VideoJS extends FrameworkPlayer<videojs.Player> implements A11y.Tog
 
 declare global {
     interface Window {
-        videojs: any;
+        videojs?: {
+            getPlayer?: () => void;
+            players: videojs.Player[];
+        };
     }
 }

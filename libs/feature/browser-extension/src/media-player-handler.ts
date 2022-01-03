@@ -1,11 +1,14 @@
-import { getImplementedMediaPlayerInstances, Media } from '@scribit/shared/utils';
+import { getImplementedMediaPlayerInstances, Media } from "@scribit/shared/utils";
 import { debounceTime, Observable, tap } from "rxjs";
-import { MessageEvent, MessageType } from './@types';
-import { A11yHandler } from './a11y-handler';
-import { FrameworkFactory } from './framework-factory';
+import { MessageEvent, MessageType } from "./@types";
+import { A11yHandler } from "./a11y-handler";
+import { FrameworkFactory } from "./framework-factory";
 
 export abstract class MediaPlayerHandler extends A11yHandler {
-    protected constructor(watcher: Observable<MessageEvent>, protected readonly players: Media.Player[]) {
+    protected constructor(
+        watcher: Observable<MessageEvent>,
+        protected readonly players: Media.Player[]
+    ) {
         super(watcher);
     }
 
@@ -29,7 +32,7 @@ export abstract class MediaPlayerHandler extends A11yHandler {
     protected transformWatcher(watcher: Observable<MessageEvent>): Observable<MessageEvent> {
         return watcher.pipe(
             debounceTime(0),
-            tap(event => {
+            tap((event) => {
                 if (!this.preferences || event.messageType === MessageType.UpdatedTab) {
                     return this.scan();
                 }

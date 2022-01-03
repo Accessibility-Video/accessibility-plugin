@@ -4,19 +4,17 @@ import { Message } from "./message";
 import { Storage } from "./storage";
 
 const handleListener =
-    (subscriber: Subscriber<MessageEvent>) =>
-        async (messageType: MessageType) => {
-            switch (messageType) {
-                case MessageType.UpdatedUserPreferences:
-                case MessageType.UpdatedTab:
-                    const preferences = await Storage.get(Storage.Key.UserPreference);
-                    subscriber.next({
-                        messageType,
-                        preferences,
-                    });
-                    break;
-            }
-        };
+    (subscriber: Subscriber<MessageEvent>) => async (messageType: MessageType) => {
+        switch (messageType) {
+            case MessageType.UpdatedUserPreferences:
+            case MessageType.UpdatedTab:
+                subscriber.next({
+                    messageType,
+                    preferences: await Storage.get(Storage.Key.UserPreference)
+                });
+                break;
+        }
+    };
 
 export class Watcher {
     public static get observable(): Observable<MessageEvent> {
