@@ -35,7 +35,7 @@
     "@types/webextension-polyfill": "^0.8.2",
     "@types/youtube": "^0.0.46",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
-    "@typescript-eslint/parser": "^5.8.1",
+    "@typescript-eslint/parser": "^5.9.0",
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
