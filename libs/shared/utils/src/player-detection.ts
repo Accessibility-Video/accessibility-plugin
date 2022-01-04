@@ -2,16 +2,18 @@ import { Media } from "./media";
 import { IPlayer } from "./i-player";
 import { A11y } from "@scribit/shared/types";
 
-export interface PlayerFactory {
-    create(player: Media.Player): IPlayer & A11y.Toggle;
+type PlayerFactoryMap<T> = { [key in Media.Player]?: T };
+
+export interface PlayerFactory<R, M extends PlayerFactoryMap<R> = PlayerFactoryMap<R>> {
+    create<P extends Media.Player>(player: P): M[P];
 }
 
 /**
  *
  */
-export function getImplementedMediaPlayerInstances<U extends PlayerFactory>(
+export function getImplementedMediaPlayerInstances<T extends PlayerFactory<IPlayer & A11y.Toggle>>(
     element: Element,
-    factory: U,
+    factory: T,
     players: Media.Player[]
 ) {
     const instances = [];

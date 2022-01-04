@@ -21,7 +21,7 @@ export abstract class A11yHandler implements A11y.Toggle {
                     disables = true;
                 }
                 if (this.preferences) {
-                    const keys = Object.keys(this.preferences) as Array<keyof UserPreferences>;
+                    const keys = Object.keys(this.preferences) as (keyof UserPreferences)[];
 
                     for (const key of keys) {
                         const feature = A11y.Feature[key];

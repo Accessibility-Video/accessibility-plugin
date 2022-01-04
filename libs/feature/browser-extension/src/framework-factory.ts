@@ -10,15 +10,15 @@ const checkPlayerIsFramework = (player: Media.Player): player is Media.Framework
 /**
  *
  */
-export class FrameworkFactory implements PlayerFactory {
+export class FrameworkFactory implements PlayerFactory<FactoryResult> {
     public static readonly instanceMap = {
-        [Media.Framework.JW]: new JWPlayer(),
-        [Media.Framework.ME]: new MediaElementJS(),
-        [Media.Framework.SPW]: new ScribitProWidget(),
-        [Media.Framework.VJS]: new VideoJS()
+        [Media.Framework.JW]: JWPlayer,
+        [Media.Framework.ME]: MediaElementJS,
+        [Media.Framework.SPW]: ScribitProWidget,
+        [Media.Framework.VJS]: VideoJS
     };
 
-    protected static instances: { [key in Media.Framework]?: FactoryResult } = {};
+    protected static instances: { [key in Media.Player]?: FactoryResult } = {};
 
     private static instance: FrameworkFactory;
 
@@ -48,9 +48,9 @@ export class FrameworkFactory implements PlayerFactory {
         }
         const instances = FrameworkFactory.instances;
         if (!instances[player] && FrameworkFactory.instanceMap[player]) {
-            instances[player] = FrameworkFactory.instanceMap[player];
+            instances[player] = new FrameworkFactory.instanceMap[player]();
         }
 
-        return instances[player] as FactoryResult;
+        return instances[player];
     }
 }
