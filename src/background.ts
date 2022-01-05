@@ -92,8 +92,5 @@ new Observable<number>((subscriber) => {
 })
     .pipe(debounceTime(1000))
     .subscribe({
-        next: async (tabId) =>
-            tabs
-                .sendMessage(tabId, MessageType.UpdatedTab)
-                .catch((err: unknown) => console.warn(err))
+        next: async (tabId) => tabs.sendMessage(tabId, MessageType.UpdatedTab).catch(console.warn)
     });
