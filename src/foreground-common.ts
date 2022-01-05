@@ -1,7 +1,12 @@
-import { EventType, MediaPlayerHandler, MessageEvent, MessageType } from "@scribit/feature/browser-extension";
-import { Document } from '@scribit/shared/frontend-utils';
-import { Observable } from 'rxjs';
-import { startWith, tap } from 'rxjs/operators';
+import {
+    EventType,
+    MediaPlayerHandler,
+    MessageEvent,
+    MessageType
+} from "@scribit/feature/browser-extension";
+import { Document } from "@scribit/shared/frontend-utils";
+import { Observable } from "rxjs";
+import { startWith, tap } from "rxjs/operators";
 import { runtime } from "webextension-polyfill";
 import { Storage, Watcher } from "./helpers";
 import { Media } from "@scribit/shared/utils";
@@ -13,11 +18,11 @@ class VideoAccessibilityHandler extends MediaPlayerHandler {
 }
 
 function onChange(detail: MessageEvent): boolean {
-    let payload = { detail }
+    let payload = { detail };
     // clones object in order to read the event detail in non-privileged (injected) code.
     // https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent#firing_from_privileged_code_to_non-privileged_code
-    if (typeof cloneInto === 'function') {
-        payload = cloneInto(payload, document.defaultView!);
+    if (typeof cloneInto === "function") {
+        payload = cloneInto(payload, document.defaultView as Window);
     }
     return document.dispatchEvent(new CustomEvent(EventType.Changed, payload));
 }
@@ -28,17 +33,17 @@ Promise.all([Storage.get(Storage.Key.UserPreference), Document.ready]).then(([pr
     document.addEventListener(EventType.Initialized, () => onChange(messageEvent));
 
     // Inject script
-    const filePath = runtime.getURL('video-accessibility.js');
-    const script = document.createElement('script');
-    script.setAttribute('type', 'text/javascript');
-    script.setAttribute('src', filePath);
+    const filePath = runtime.getURL("video-accessibility.js");
+    const script = document.createElement("script");
+    script.setAttribute("type", "text/javascript");
+    script.setAttribute("src", filePath);
     script.async = true;
-    Document.append(script, 'body');
+    Document.append(script, "body");
 
     const observable = Watcher.observable.pipe(tap(onChange), startWith(messageEvent));
     new VideoAccessibilityHandler(observable);
 });
 
 declare global {
-    function cloneInto<T>(obj: T, targetScope: Window): T
+    function cloneInto<T>(obj: T, targetScope: Window): T;
 }

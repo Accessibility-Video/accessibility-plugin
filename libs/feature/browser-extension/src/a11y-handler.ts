@@ -1,6 +1,6 @@
-import { A11y } from '@scribit/shared/types';
+import { A11y } from "@scribit/shared/types";
 import { Observable } from "rxjs";
-import { MessageEvent, MessageType, UserPreferences } from './@types';
+import { MessageEvent, MessageType, UserPreferences } from "./@types";
 
 export abstract class A11yHandler implements A11y.Toggle {
     protected toggleInstances: A11y.Toggle[] = [];
@@ -15,11 +15,13 @@ export abstract class A11yHandler implements A11y.Toggle {
             next: async (event) => {
                 let disables = false;
                 if (event.messageType === MessageType.UpdatedUserPreferences) {
-                    this.preferences = (event as MessageEvent<MessageType.UpdatedUserPreferences>).preferences;
+                    this.preferences = (
+                        event as MessageEvent<MessageType.UpdatedUserPreferences>
+                    ).preferences;
                     disables = true;
                 }
                 if (this.preferences) {
-                    const keys = Object.keys(this.preferences) as Array<keyof UserPreferences>;
+                    const keys = Object.keys(this.preferences) as (keyof UserPreferences)[];
 
                     for (const key of keys) {
                         const feature = A11y.Feature[key];
@@ -38,19 +40,19 @@ export abstract class A11yHandler implements A11y.Toggle {
     /**
      *
      */
-    public disable(feature: A11y.Feature): Promise<any> {
-        const promises = this.toggleInstances.map(instance => instance.disable(feature));
+    public disable(feature: A11y.Feature): Promise<boolean | void> {
+        const promises = this.toggleInstances.map((instance) => instance.disable(feature));
 
-        return Promise.all(promises);
+        return Promise.all(promises).then((results) => results.every(Boolean));
     }
 
     /**
      *
      */
-    public enable(feature: A11y.Feature): Promise<any> {
-        const promises = this.toggleInstances.map(instance => instance.enable(feature));
+    public enable(feature: A11y.Feature): Promise<boolean | void> {
+        const promises = this.toggleInstances.map((instance) => instance.enable(feature));
 
-        return Promise.all(promises);
+        return Promise.all(promises).then((results) => results.every(Boolean));
     }
 
     /**

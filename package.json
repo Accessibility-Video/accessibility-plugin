@@ -8,7 +8,8 @@
     "test": "npm-run-all -np test-s:lint",
     "test-s:lint": "npm-run-all -l test:lint:*",
     "test:lint:tsc": "tsc -p tsconfig.json --noEmit",
-    "test:lint:eslint": "eslint . --ext .ts"
+    "test:lint:eslint": "eslint . --ext .ts",
+    "test:lint:eslint:fix": "eslint . --ext .ts --fix"
   },
   "author": "Weave (https://weave.nl)",
   "contributors": [

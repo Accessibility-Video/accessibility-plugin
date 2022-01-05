@@ -1,2 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export type Implements<T, U extends T> = {}
+// eslint-disable-next-line @typescript-eslint/ban-types,@typescript-eslint/no-unused-vars
+export type Implements<T, U extends T> = {};

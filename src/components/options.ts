@@ -1,12 +1,12 @@
-import { UserPreferences } from '@scribit/feature/browser-extension';
-import { A11y, Form } from '@scribit/shared/types';
-import { html, TemplateResult } from 'lit';
-import { customElement } from 'lit/decorators.js'
-import { camelCase } from 'lodash'
-import { BaseComponent } from './base-component';
-import { t, Storage } from '../helpers';
+import { UserPreferences } from "@scribit/feature/browser-extension";
+import { A11y, Form } from "@scribit/shared/types";
+import { html, TemplateResult } from "lit";
+import { customElement } from "lit/decorators.js";
+import { camelCase } from "lodash";
+import { BaseComponent } from "./base-component";
+import { t, Storage } from "../helpers";
 
-@customElement('scribit-extension-options')
+@customElement("scribit-extension-options")
 export class Popup extends BaseComponent {
     private preferences!: UserPreferences;
 
@@ -21,14 +21,12 @@ export class Popup extends BaseComponent {
 
     protected render() {
         return html`
-            <div class="container centered">
-                ${this.listPreferences(this.preferences)}
-            </div>
+            <div class="container centered">${this.listPreferences(this.preferences)}</div>
         `;
     }
 
     private listPreferences(preferences?: UserPreferences): TemplateResult | undefined {
-        if(!preferences) {
+        if (!preferences) {
             return undefined;
         }
 
@@ -37,10 +35,10 @@ export class Popup extends BaseComponent {
         return html`
             <section>
                 <header>
-                    <h2>${t('accessibilityOptions')}</h2>
+                    <h2>${t("accessibilityOptions")}</h2>
                 </header>
                 <div class="card">
-                    ${keys.map(feat => this.listOption(feat, preferences[feat]))}
+                    ${keys.map((feat) => this.listOption(feat, preferences[feat]))}
                 </div>
             </section>
         `;
@@ -50,25 +48,30 @@ export class Popup extends BaseComponent {
         const preferenceKey = feat.toLowerCase();
         const translationKey = camelCase(A11y.Feature[feat]);
 
-        return html`
-            <div class="feature option row">
-                <div class="scribit-icon ${preferenceKey}"></div>
-                <div class="label-wrapper">
-                    <div id="${preferenceKey}-label" class="label">${t(translationKey)}</div>
-                    <div class="secondary label">${t(translationKey+'Explanation')}</div>
-                </div>
-                <div class="input">
-                    <label class="switch">
-                        <input type="checkbox" role="switch" name="${preferenceKey}" ?checked="${checked}"
-                            @change="${this.updatePreference}" aria-labelledby="${preferenceKey}-label">
-                        <span></span>
-                    </label>
-                </div>
-            </div>`;
+        return html` <div class="feature option row">
+            <div class="scribit-icon ${preferenceKey}"></div>
+            <div class="label-wrapper">
+                <div id="${preferenceKey}-label" class="label">${t(translationKey)}</div>
+                <div class="secondary label">${t(translationKey + "Explanation")}</div>
+            </div>
+            <div class="input">
+                <label class="switch">
+                    <input
+                        type="checkbox"
+                        role="switch"
+                        name="${preferenceKey}"
+                        ?checked="${checked}"
+                        @change="${this.updatePreference}"
+                        aria-labelledby="${preferenceKey}-label"
+                    />
+                    <span></span>
+                </label>
+            </div>
+        </div>`;
     }
 
     private updatePreference(event: Form.ChangeEvent<HTMLInputElement>) {
-        const key = <keyof typeof A11y.Feature>event.target.getAttribute('name')!.toUpperCase();
+        const key = <keyof typeof A11y.Feature>event.target.getAttribute("name")?.toUpperCase();
         this.preferences[key] = event.target.checked;
         Storage.set(Storage.Key.UserPreference, this.preferences).catch(console.warn);
     }

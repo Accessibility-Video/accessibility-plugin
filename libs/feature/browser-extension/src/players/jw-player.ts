@@ -1,21 +1,22 @@
-import { A11y } from '@scribit/shared/types';
-import { FrameworkPlayer } from './framework-player';
+import { A11y } from "@scribit/shared/types";
+import { FrameworkPlayer } from "./framework-player";
+import { IPlayer } from "@scribit/shared/utils";
 
-export class JWPlayer extends FrameworkPlayer<jwplayer.JWPlayer> implements A11y.Toggle {
+export class JWPlayer extends FrameworkPlayer<jwplayer.JWPlayer> implements IPlayer, A11y.Toggle {
     /**
      * @inheritDoc
      */
     protected getScanResults(element: Element): jwplayer.JWPlayer[] {
-        return Array.from(element.querySelectorAll('.jwplayer'))
-            .map(container => jwplayer(container))
-            .filter(player => player.getState());
+        return Array.from(element.querySelectorAll(".jwplayer"))
+            .map((container) => jwplayer(container))
+            .filter((player) => player.getState());
     }
 
     /**
      * @inheritDoc
      */
     protected toggleClosedCaptioning(enabled: boolean): void {
-        for (let player of this.players) {
+        for (const player of this.players) {
             if (this.toggleCaptionsTrack(enabled, player) !== undefined) {
                 return;
             }
@@ -24,10 +25,10 @@ export class JWPlayer extends FrameworkPlayer<jwplayer.JWPlayer> implements A11y
             // listener which will listen until a captions text track is added.
             const handleCaptionsListEvent = () => {
                 if (this.toggleCaptionsTrack(enabled, player) !== undefined) {
-                    player.off('captionsList', handleCaptionsListEvent);
+                    player.off("captionsList", handleCaptionsListEvent);
                 }
             };
-            player.on('captionsList', handleCaptionsListEvent);
+            player.on("captionsList", handleCaptionsListEvent);
         }
     }
 
@@ -37,12 +38,18 @@ export class JWPlayer extends FrameworkPlayer<jwplayer.JWPlayer> implements A11y
             return undefined;
         }
 
-        for (let listItem of captionsList) {
-            if ((enabled && listItem.id !== 'off') || (!enabled && listItem.id === 'off')) {
+        for (const listItem of captionsList) {
+            if ((enabled && listItem.id !== "off") || (!enabled && listItem.id === "off")) {
                 player.setCurrentCaptions(listItem.id);
             }
         }
 
         return enabled;
+    }
+}
+
+declare global {
+    interface Window {
+        jwplayer: Record<string, unknown>;
     }
 }

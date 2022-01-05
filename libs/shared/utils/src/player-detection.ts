@@ -1,16 +1,22 @@
-import { Media } from './media';
+import { Media } from "./media";
+import { IPlayer } from "./i-player";
+import { A11y } from "@scribit/shared/types";
 
-type PlayerFactoryMap<T = any> = { [key in Media.Player]?: T };
+type PlayerFactoryMap<T> = { [key in Media.Player]?: T };
 
-export interface PlayerFactory<M extends PlayerFactoryMap<R>, R = any> {
-    create<P extends Media.Player>(player: P): M[P]
+export interface PlayerFactory<R, M extends PlayerFactoryMap<R> = PlayerFactoryMap<R>> {
+    create<P extends Media.Player>(player: P): M[P];
 }
 
 /**
  *
  */
-export function getImplementedMediaPlayerInstances<T extends PlayerFactory<PlayerFactoryMap>>(element: Element, factory: T, players: Media.Player[]): ReturnType<T['create']>[] {
-    const instances: ReturnType<T['create']>[] = [];
+export function getImplementedMediaPlayerInstances<T extends PlayerFactory<IPlayer & A11y.Toggle>>(
+    element: Element,
+    factory: T,
+    players: Media.Player[]
+) {
+    const instances = [];
 
     for (let i = 0; i < players.length; i++) {
         if (!hasPlayerInElement(element, players[i])) continue;
@@ -28,9 +34,10 @@ export function getImplementedMediaPlayerInstances<T extends PlayerFactory<Playe
  *
  */
 function isJW(element: Element): boolean {
-    const window: any = element.ownerDocument.defaultView;
+    const window = element.ownerDocument.defaultView;
+    const player = window?.jwplayer;
 
-    return typeof window['jwplayer'] === 'function';
+    return player !== undefined;
 }
 
 /**
@@ -50,7 +57,7 @@ function isVJS(element: Element): boolean {
     const window = element.ownerDocument.defaultView;
     const player = window?.videojs;
 
-    return player && typeof player.getPlayer === 'function';
+    return typeof player?.getPlayer === "function";
 }
 
 /**
@@ -60,7 +67,7 @@ function isSPW(element: Element): boolean {
     const window = element.ownerDocument.defaultView;
     const hasBar = window?.scribit?.widget?.hasBar;
 
-    return typeof hasBar === 'function';
+    return typeof hasBar === "function";
 }
 
 /**
@@ -70,7 +77,7 @@ const playerDetectionMap: { [key in Media.Player]?: (element: Element) => boolea
     [Media.Framework.JW]: isJW,
     [Media.Framework.ME]: isME,
     [Media.Framework.SPW]: isSPW,
-    [Media.Framework.VJS]: isVJS,
+    [Media.Framework.VJS]: isVJS
 };
 
 /**
@@ -78,7 +85,7 @@ const playerDetectionMap: { [key in Media.Player]?: (element: Element) => boolea
  */
 function hasPlayerInElement(element: Element, player: Media.Player): boolean {
     const detectionCallback = playerDetectionMap[player];
-    if(detectionCallback) {
+    if (detectionCallback) {
         try {
             return detectionCallback(element);
         } catch (error) {

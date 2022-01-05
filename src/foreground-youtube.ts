@@ -1,5 +1,5 @@
-import { BasePlayer } from '@scribit/feature/browser-extension';
-import { A11yHandler } from './helpers/a11y-handler';
+import { BasePlayer } from "@scribit/feature/browser-extension";
+import { A11yHandler } from "./helpers/a11y-handler";
 
 class Youtube extends BasePlayer {
     /**
@@ -7,14 +7,14 @@ class Youtube extends BasePlayer {
      */
     private get container(): Element {
         let container: Element | null;
-        if (location.pathname.startsWith('/embed/')) {
-            container = document.getElementById('player');
+        if (location.pathname.startsWith("/embed/")) {
+            container = document.getElementById("player");
         } else {
-            container = document.body.querySelector('#container.ytd-player');
+            container = document.body.querySelector("#container.ytd-player");
         }
 
         if (!container) {
-            throw new Error('Could not get Youtube player element');
+            throw new Error("Could not get Youtube player element");
         }
 
         return container;
@@ -24,9 +24,11 @@ class Youtube extends BasePlayer {
      * @inheritDoc
      */
     protected toggleClosedCaptioning(enabled: boolean): void {
-        const toggleButton = this.container.querySelector<HTMLButtonElement>('button.ytp-subtitles-button');
+        const toggleButton = this.container.querySelector<HTMLButtonElement>(
+            "button.ytp-subtitles-button"
+        );
         if (toggleButton) {
-            const currentState = toggleButton.getAttribute('aria-pressed');
+            const currentState = toggleButton.getAttribute("aria-pressed");
             if (currentState === null) {
                 // when the attribute isn't set on the CC button, we assume that the
                 // button isn't initialized yet. Therefore we add a observer which
@@ -42,7 +44,7 @@ class Youtube extends BasePlayer {
                 });
                 return observer.observe(toggleButton, {
                     attributes: true,
-                    attributeFilter: ['style'],
+                    attributeFilter: ["style"]
                 });
             }
             if (currentState !== enabled.toString()) {
@@ -57,9 +59,9 @@ new A11yHandler(new Youtube());
 declare global {
     interface Window {
         YT: {
-            ready: (callback: Function) => void;
+            ready: (callback: VoidFunction) => void;
             loading: 0 | 1;
             loaded: 0 | 1;
-        }
+        };
     }
 }

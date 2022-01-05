@@ -1,19 +1,21 @@
-import { A11y } from '@scribit/shared/types';
-import { Media, PlayerFactory } from '@scribit/shared/utils';
-import { FrameworkPlayer, JWPlayer, MediaElementJS, VideoJS, ScribitProWidget } from "./players";
+import { A11y } from "@scribit/shared/types";
+import { IPlayer, Media, PlayerFactory } from "@scribit/shared/utils";
+import { JWPlayer, MediaElementJS, VideoJS, ScribitProWidget } from "./players";
 
-type FactoryMap = typeof FrameworkFactory.instanceMap;
-type FactoryResult = FrameworkPlayer<any> & A11y.Toggle
+type FactoryResult = IPlayer & A11y.Toggle;
+
+const checkPlayerIsFramework = (player: Media.Player): player is Media.Framework =>
+    Object.values(Media.Framework).includes(player as Media.Framework);
 
 /**
  *
  */
-export class FrameworkFactory implements PlayerFactory<FactoryMap> {
-    public static readonly instanceMap: Readonly<{ [key in Media.Player]?: any }> = {
+export class FrameworkFactory implements PlayerFactory<FactoryResult> {
+    public static readonly instanceMap = {
         [Media.Framework.JW]: JWPlayer,
         [Media.Framework.ME]: MediaElementJS,
         [Media.Framework.SPW]: ScribitProWidget,
-        [Media.Framework.VJS]: VideoJS,
+        [Media.Framework.VJS]: VideoJS
     };
 
     protected static instances: { [key in Media.Player]?: FactoryResult } = {};
@@ -23,6 +25,7 @@ export class FrameworkFactory implements PlayerFactory<FactoryMap> {
     /**
      *
      */
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     private constructor() {}
 
     /**
@@ -39,12 +42,15 @@ export class FrameworkFactory implements PlayerFactory<FactoryMap> {
     /**
      *
      */
-    public create(player: Media.Player): FactoryResult {
+    public create(player: Media.Player) {
+        if (!checkPlayerIsFramework(player)) {
+            throw new Error(`Player ${player} is not a framework`);
+        }
         const instances = FrameworkFactory.instances;
         if (!instances[player] && FrameworkFactory.instanceMap[player]) {
-            instances[player] = new FrameworkFactory.instanceMap[player];
+            instances[player] = new FrameworkFactory.instanceMap[player]();
         }
 
-        return instances[player]!;
+        return instances[player];
     }
 }
