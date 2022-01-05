@@ -26,14 +26,13 @@ export abstract class A11yHandler implements A11y.Toggle {
                     for (const key of keys) {
                         const feature = A11y.Feature[key];
                         if (this.preferences[key]) {
-                            await this.enable(feature);
+                            await this.enable(feature).catch((err: unknown) => console.warn(err));
                         } else if (disables) {
-                            await this.disable(feature);
+                            await this.disable(feature).catch((err: unknown) => console.warn(err));
                         }
                     }
                 }
-            },
-            error: (err: unknown) => console.warn(err)
+            }
         });
     }
 
