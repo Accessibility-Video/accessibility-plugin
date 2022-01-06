@@ -60,7 +60,7 @@
     "webextension-polyfill": "^0.8.0"
   },
   "dependencies": {
-    "lit": "^2.0.2",
+    "lit": "^2.1.0",
     "lodash": "^4.17.21",
     "rxjs": "^7.5.1"
   }
