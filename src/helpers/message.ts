@@ -1,6 +1,6 @@
 import { MessageType } from "@scribit/feature/browser-extension";
 import { Implements } from "@scribit/shared/types";
-import { Runtime, runtime } from "webextension-polyfill";
+import { Runtime, runtime, tabs } from "webextension-polyfill";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Message {
@@ -29,7 +29,12 @@ export namespace Message {
     /**
      *
      */
-    export function send<T extends MessageType>(message: T): Promise<ValueMap[T]> {
-        return runtime.sendMessage(message);
+    export async function send<T extends MessageType>(message: T): Promise<void> {
+        const tabsResult = await tabs.query({});
+        for (const tab of tabsResult) {
+            if (tab.id && tab.url?.match(/https?:\/\//g)) {
+                await tabs.sendMessage(tab.id, message).catch(console.warn);
+            }
+        }
     }
 }
