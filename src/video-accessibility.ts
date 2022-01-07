@@ -22,9 +22,8 @@ if (!window.scribit) {
 
 if (!window.scribit.extension) {
     const watcher = new Observable<MessageEvent>((observer) => {
-        const handleListener = function (event: Event) {
+        const handleListener = (event: Event) =>
             observer.next((event as CustomEvent<MessageEvent>).detail);
-        };
         document.addEventListener(EventType.Changed, handleListener, false);
 
         return () => document.removeEventListener(EventType.Changed, handleListener);
