@@ -10,7 +10,7 @@ class Youtube extends BasePlayer {
         if (location.pathname.startsWith("/embed/")) {
             container = document.getElementById("player");
         } else {
-            container = document.body.querySelector("#container.ytd-player");
+            container = document.body;
         }
 
         if (!container) {

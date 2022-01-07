@@ -38,14 +38,14 @@ export namespace Storage {
         switch (key) {
             case Key.UserPreference:
                 value = <ValueMap[T]>filterUserPreferences(<UserPreferences>value);
-                onSuccessCallbacks.push(function () {
-                    Message.send(MessageType.UpdatedUserPreferences).catch(console.warn);
+                onSuccessCallbacks.push(async () => {
+                    await Message.send(MessageType.UpdatedUserPreferences).catch(console.warn);
                 });
                 break;
         }
 
         return storage.local.set({ [key]: value }).then(() => {
-            onSuccessCallbacks.forEach((cb) => cb(key, value));
+            onSuccessCallbacks.forEach(async (cb) => cb(key, value));
         });
     }
 }

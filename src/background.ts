@@ -81,9 +81,10 @@ function apiRequestOptions(options?: Partial<RequestInit>): RequestInit {
  *
  */
 new Observable<number>((subscriber) => {
-    const callback = (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType) => {
-        return changeInfo?.status === "complete" && subscriber.next(tabId);
-    };
+    const callback = (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) =>
+        changeInfo?.status === "complete" &&
+        tab.url?.match(/https?:\/\//g) &&
+        subscriber.next(tabId);
 
     tabs.onUpdated.addListener(callback);
 
@@ -91,6 +92,5 @@ new Observable<number>((subscriber) => {
 })
     .pipe(debounceTime(1000))
     .subscribe({
-        next: async (tabId) => tabs.sendMessage(tabId, MessageType.UpdatedTab),
-        error: (err: unknown) => console.warn(err)
+        next: async (tabId) => tabs.sendMessage(tabId, MessageType.UpdatedTab).catch(console.warn)
     });
