@@ -16,7 +16,7 @@ Running the browser extension in development or production mode.
 ```
 
 ## Thanks
-- [Bartiméus](http://www.bartimeus.nl) - Sed in odio aliquam, luctus quam at, viverra risus.
-- [Scribit.pro](http://scribit.pro) - Nullam quis leo augue.
-- [SIDN fonds](http://www.sidnfonds.nl/) - In lorem tellus, convallis sed ex et, suscipit venenatis risus.
-- [Weave](http://weave.nl) -  Augue in vehicula sodales, tortor tortor tempor velit, et pellentesque nibh massa in turpis.
+- [Bartiméus](http://www.bartimeus.nl)
+- [Scribit.pro](http://scribit.pro)
+- [SIDN fonds](http://www.sidnfonds.nl/)
+- [Weave](http://weave.nl)
