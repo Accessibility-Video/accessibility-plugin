@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: "Chrome Artifacts"
-          path: ./Package.zip
+          path: ./dist
           if-no-files-found: error
 
       - name: Create firefox build
@@ -77,5 +77,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: "Firefox Artifacts"
-          path: ./Package.zip
+          path: ./dist
           if-no-files-found: error

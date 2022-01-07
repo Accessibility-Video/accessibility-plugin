@@ -11,4 +11,4 @@ fi
 # Replaces the content scripts for the bundled ones.
 ##
 npx rollup --config rollup.firefox.config.js --environment production
-sed -iE 's/assets\/foreground\(-[a-z]\{1,\}\)-[a-z0-9]\{1,\}.js/foreground\1.js/g' $manifest
+sed -i 's/assets\/foreground\(-[a-z]\{1,\}\)-[a-z0-9]\{1,\}.js/foreground\1.js/g' $manifest
