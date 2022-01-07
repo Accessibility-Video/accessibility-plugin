@@ -52,7 +52,6 @@ function createConfig(filename, useSvelte = false) {
 
 export default [
     createConfig("components/options", true),
-    createConfig("background"),
     createConfig("foreground-common"),
     createConfig("foreground-vimeo"),
     createConfig("foreground-youtube"),
