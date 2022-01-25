@@ -31,7 +31,7 @@
     "@semantic-release/git": "^10.0.1",
     "@types/jwplayer": "^8.2.10",
     "@types/lodash": "^4.14.178",
-    "@types/video.js": "^7.3.29",
+    "@types/video.js": "^7.3.30",
     "@types/vimeo__player": "^2.16.0",
     "@types/webextension-polyfill": "^0.8.2",
     "@types/youtube": "^0.0.46",
