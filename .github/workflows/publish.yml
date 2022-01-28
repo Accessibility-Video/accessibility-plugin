@@ -39,13 +39,12 @@ jobs:
         env:
           CHROME_WEB_STORE_APP_ID: ${{ secrets.CHROME_WEB_STORE_APP_ID }}
           CHROME_WEB_STORE_CLIENT_ID: ${{ secrets.CHROME_WEB_STORE_CLIENT_ID }}
-          CHROME_WEB_STORE_CLIENT_SECRET: ${{ secrets.CHROME_WEB_STORE_CLIENT_SECRET }}
           CHROME_WEB_STORE_REFRESH_TOKEN: ${{ secrets.CHROME_WEB_STORE_REFRESH_TOKEN }}
         run: |
-          ACCESS_TOKEN=$(curl -X POST https://oauth2.googleapis.com/token -d "client_id=$CHROME_WEB_STORE_CLIENT_ID&client_secret=$CHROME_WEB_STORE_CLIENT_SECRET&refresh_token=$CHROME_WEB_STORE_REFRESH_TOKEN&grant_type=refresh_token" | jq '.access_token' -r)
-          curl --fail-with-body -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2" -X PUT -T Package.zip https://www.googleapis.com/upload/chromewebstore/v1.1/items/$CHROME_WEB_STORE_APP_ID
-          curl --fail-with-body -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2" -H "Content-Length: 0" -H "Expect:" -X GET https://www.googleapis.com/chromewebstore/v1.1/items/$CHROME_WEB_STORE_APP_ID?projection=draft
-          curl --fail-with-body -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2" -H "Content-Length: 0" -X POST https://www.googleapis.com/chromewebstore/v1.1/items/$CHROME_WEB_STORE_APP_ID/publish
+          ACCESS_TOKEN=$(curl -X POST https://oauth2.googleapis.com/token -d "client_id=$CHROME_WEB_STORE_CLIENT_ID&refresh_token=$CHROME_WEB_STORE_REFRESH_TOKEN&grant_type=refresh_token" | jq '.access_token' -r)
+          curl --fail -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2" -X PUT -T Package.zip https://www.googleapis.com/upload/chromewebstore/v1.1/items/$CHROME_WEB_STORE_APP_ID
+          curl --fail -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2" -H "Content-Length: 0" -H "Expect:" -X GET https://www.googleapis.com/chromewebstore/v1.1/items/$CHROME_WEB_STORE_APP_ID?projection=draft
+          curl --fail -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2" -H "Content-Length: 0" -X POST https://www.googleapis.com/chromewebstore/v1.1/items/$CHROME_WEB_STORE_APP_ID/publish
 
       - name: Drop chrome artifacts
         uses: actions/upload-artifact@v2
@@ -71,7 +70,7 @@ jobs:
         run: |
           VERSION_NUMBER=$(jq -r .version ./src/manifest.json)
           ACCESS_TOKEN=$(npx jwtgen -a HS256 -s ${FIREFOX_STORE_JWT_SECRET} -c "iss=${FIREFOX_STORE_JWT_ISSUER}" -e 300)
-          curl --fail-with-body -H "Authorization: JWT ${ACCESS_TOKEN}" -g -XPUT --form "upload=@Package.zip" "https://addons.mozilla.org/api/v4/addons/${FIREFOX_STORE_APP_ID}/versions/${VERSION_NUMBER}/"
+          curl --fail -H "Authorization: JWT ${ACCESS_TOKEN}" -g -XPUT --form "upload=@Package.zip" "https://addons.mozilla.org/api/v4/addons/${FIREFOX_STORE_APP_ID}/versions/${VERSION_NUMBER}/"
 
       - name: Drop firefox artifacts
         uses: actions/upload-artifact@v2

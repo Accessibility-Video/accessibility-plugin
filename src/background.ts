@@ -8,7 +8,14 @@ import { MessageType } from "@scribit/feature/browser-extension";
  */
 runtime.onInstalled.addListener((details) => {
     if (details.reason === "install") {
-        const preferences = mapUserPreferences({}, true);
+        // set closed captions and audio-descriptions default to true
+        const preferences = mapUserPreferences(
+            {
+                CC: true,
+                AD: true
+            },
+            false
+        );
         Storage.set(Storage.Key.UserPreference, preferences).catch((error: unknown) =>
             console.warn("could not set initial preferences", error)
         );
