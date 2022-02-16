@@ -32,7 +32,7 @@
     "@types/jwplayer": "^8.2.10",
     "@types/lodash": "^4.14.178",
     "@types/video.js": "^7.3.31",
-    "@types/vimeo__player": "^2.16.1",
+    "@types/vimeo__player": "^2.16.2",
     "@types/webextension-polyfill": "^0.8.2",
     "@types/youtube": "^0.0.46",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
