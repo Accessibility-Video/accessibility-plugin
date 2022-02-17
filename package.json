@@ -47,7 +47,7 @@
     "prettier": "2.5.1",
     "rollup": "^2.67.2",
     "rollup-plugin-bundle-imports": "^1.5.1",
-    "rollup-plugin-chrome-extension": "4.0.1-11",
+    "rollup-plugin-chrome-extension": "4.0.1-15",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-empty-dir": "^1.0.5",
     "rollup-plugin-svelte": "^7.1.0",
