@@ -16,6 +16,10 @@ jobs:
         with:
           node-version: "14"
 
+      - name: Pack source code
+        run: |
+          zip -r -FS source.zip *
+
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v2
@@ -70,7 +74,11 @@ jobs:
         run: |
           VERSION_NUMBER=$(jq -r .version ./src/manifest.json)
           ACCESS_TOKEN=$(npx jwtgen -a HS256 -s ${FIREFOX_STORE_JWT_SECRET} -c "iss=${FIREFOX_STORE_JWT_ISSUER}" -e 300)
-          curl --fail -H "Authorization: JWT ${ACCESS_TOKEN}" -g -XPUT --form "upload=@Package.zip" "https://addons.mozilla.org/api/v4/addons/${FIREFOX_STORE_APP_ID}/versions/${VERSION_NUMBER}/"
+          curl --fail -H "Authorization: JWT ${ACCESS_TOKEN}" -g -XPUT --form "upload=@Package.zip" "https://addons.mozilla.org/api/v5/addons/${FIREFOX_STORE_APP_ID}/versions/${VERSION_NUMBER}/"
+          curl -XPATCH "https://addons.mozilla.org/api/v5/addons/addon/${FIREFOX_STORE_APP_ID}/versions/${VERSION_NUMBER}/"  \
+            -H "Authorization: JWT ${ACCESS_TOKEN}" \
+            -F "source=@source.zip" \
+            -F "license=MPL-2.0"
 
       - name: Drop firefox artifacts
         uses: actions/upload-artifact@v2
