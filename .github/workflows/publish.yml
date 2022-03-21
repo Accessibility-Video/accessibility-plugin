@@ -74,7 +74,8 @@ jobs:
         run: |
           VERSION_NUMBER=$(jq -r .version ./src/manifest.json)
           ACCESS_TOKEN=$(npx jwtgen -a HS256 -s ${FIREFOX_STORE_JWT_SECRET} -c "iss=${FIREFOX_STORE_JWT_ISSUER}" -e 300)
-          curl --fail -H "Authorization: JWT ${ACCESS_TOKEN}" -g -XPUT -F "upload=@Package.zip" -F "source=@source.zip" "https://addons.mozilla.org/api/v5/addons/${FIREFOX_STORE_APP_ID}/versions/${VERSION_NUMBER}/"
+          curl --fail -H "Authorization: JWT ${ACCESS_TOKEN}" -g -XPUT -F "upload=@Package.zip" "https://addons.mozilla.org/api/v5/addons/${FIREFOX_STORE_APP_ID}/versions/${VERSION_NUMBER}/"
+          curl --fail -H "Authorization: JWT ${ACCESS_TOKEN}" -g -XPATCH -F "source=@source.zip" "https://addons.mozilla.org/api/v5/addons/addon/${FIREFOX_STORE_APP_ID}/versions/${VERSION_NUMBER}/"
 
       - name: Drop firefox artifacts
         uses: actions/upload-artifact@v2
