@@ -75,7 +75,8 @@ jobs:
           VERSION_NUMBER=$(jq -r .version ./src/manifest.json)
           ACCESS_TOKEN=$(npx jwtgen -a HS256 -s ${FIREFOX_STORE_JWT_SECRET} -c "iss=${FIREFOX_STORE_JWT_ISSUER}" -e 300)
           UPLOAD_ID=$(curl --fail -H "Authorization: JWT ${ACCESS_TOKEN}" -g -XPUT -F "upload=@Package.zip" "https://addons.mozilla.org/api/v5/addons/${FIREFOX_STORE_APP_ID}/versions/${VERSION_NUMBER}/" | jq '.pk' -r)
-          echo 'addon uploadid: $UPLOAD_ID'
+          echo "addon uploadid: $UPLOAD_ID, $VERSION_NUMBER"
+          sleep 15
           curl --fail -H "Authorization: JWT ${ACCESS_TOKEN}" -g -XPOST -F "source=@source.zip" -F "upload=${UPLOAD_ID}" "https://addons.mozilla.org/api/v5/addons/addon/${FIREFOX_STORE_APP_ID}/versions/"
 
       - name: Drop firefox artifacts
