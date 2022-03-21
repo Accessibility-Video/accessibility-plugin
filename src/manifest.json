@@ -68,7 +68,10 @@
         "http://www.youtube.com/*",
         "https://www.youtube.com/*",
         "http://www.youtube-nocookie.com/*",
-        "https://www.youtube-nocookie.com/*"
+        "https://www.youtube-nocookie.com/*",
+        "https://plus.google.com/hangouts/*",
+        "https://hangouts.google.com/*",
+        "https://meet.google.com/*"
       ],
       "matches": [
         "http://*/*",
