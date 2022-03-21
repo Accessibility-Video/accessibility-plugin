@@ -1,6 +1,6 @@
 {
   "name": "scribit-pro-accessibility-plugin",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Browser plugin which can be used to set default a11y options for embed video's",
   "scripts": {
     "dev": "npx rollup --config --watch --environment development",
