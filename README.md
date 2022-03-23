@@ -15,7 +15,9 @@ Node version: 14.19.0
 ## Contributing
 Running the browser extension in development or production mode.
 ```
-    npm run <dev|build> 
+npm run <dev|build>
+// for firefox you need to run
+./firefoxfy.sh
 ```
 
 ## Thanks
