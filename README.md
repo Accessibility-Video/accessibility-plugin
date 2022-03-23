@@ -9,6 +9,9 @@ Enables accessibility options for various video players on the web, based on use
 The last 2 (desktop) versions of the following browsers are supported:
 [Chrome](http://google.com/chrome), [Opera](https://www.opera.com/), [Firefox](https://www.mozilla.org/firefox), [Edge](https://www.microsoft.com/edge).
 
+## Prerequisite
+Node version: 14.19.0
+
 ## Contributing
 Running the browser extension in development or production mode.
 ```
