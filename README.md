@@ -11,6 +11,7 @@ The last 2 (desktop) versions of the following browsers are supported:
 
 ## Prerequisite
 Node version: 14.19.0
+Npm version: 6.14.16
 
 ## Contributing
 Running the browser extension in development or production mode.
