@@ -7,6 +7,8 @@ import { rollup } from 'rollup';
 import { chromeExtension } from 'rollup-plugin-chrome-extension';
 import copy from 'rollup-plugin-copy';
 import { terser } from 'rollup-plugin-terser';
+import manifest from './src/manifest.json';
+import json from "@rollup/plugin-json";
 
 export default commandLineArgs => {
     const config = {
@@ -17,6 +19,7 @@ export default commandLineArgs => {
             sourcemap: false,
         },
         plugins: [
+            json(),
             {
                 name: 'empty-dir',
                 async renderStart({ dir }) {
@@ -25,7 +28,7 @@ export default commandLineArgs => {
                     }
                 },
             },
-            chromeExtension(),
+            chromeExtension({ manifest }),
             copy({
                 hook: 'generateBundle',
                 targets: [
