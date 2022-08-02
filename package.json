@@ -35,7 +35,7 @@
     "@types/vimeo__player": "^2.16.3",
     "@types/webextension-polyfill": "^0.9.0",
     "@types/youtube": "^0.0.47",
-    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.30.7",
     "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
