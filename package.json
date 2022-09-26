@@ -29,7 +29,7 @@
     "@rollup/plugin-typescript": "^8.5.0",
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@types/jwplayer": "^8.2.10",
+    "@types/jwplayer": "^8.2.11",
     "@types/lodash": "^4.14.185",
     "@types/video.js": "^7.3.46",
     "@types/vimeo__player": "^2.16.3",
