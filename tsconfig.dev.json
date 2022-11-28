@@ -13,6 +13,9 @@
     "lib": ["es2017", "dom", "es2019.array"],
     "strict": true,
     "target": "es2017",
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "dist",
