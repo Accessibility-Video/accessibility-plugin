@@ -1,11 +1,11 @@
 {
   "name": "scribit-pro-accessibility-plugin",
   "version": "1.3.0",
-  "type": "module",
   "description": "Browser plugin which can be used to set default a11y options for embed video's",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build:chrome": "cross-env TARGET_BROWSER=chrome vite build",
+    "build:firefox": "cross-env TARGET_BROWSER=firefox vite build",
     "test": "npm-run-all -np test-s:lint",
     "test-s:lint": "npm-run-all -l test:lint:*",
     "test:lint:tsc": "tsc -p tsconfig.json --noEmit",
@@ -24,7 +24,6 @@
   },
   "license": "UNLICENSED",
   "devDependencies": {
-    "@crxjs/vite-plugin": "^2.0.0-beta.6",
     "@open-wc/eslint-config": "8.0.2",
     "@semantic-release/exec": "6.0.3",
     "@semantic-release/git": "10.0.1",
@@ -40,6 +39,7 @@
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.39.0",
     "@vimeo/player": "^2.18.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-standard": "17.0.0",
@@ -53,6 +53,7 @@
     "tslib": "^2.4.0",
     "typescript": "^4.6.4",
     "vite": "^3.2.3",
+    "vite-plugin-web-extension": "^1.4.6",
     "vite-tsconfig-paths": "^3.6.0",
     "webextension-polyfill": "^0.10.0"
   },

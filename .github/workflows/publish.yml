@@ -31,9 +31,9 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci --ignore-scripts
 
-      - name: Create build
+      - name: Create chrome build
         run: |
-          npm run build
+          npm run build:chrome
 
       - name: Pack chrome extension
         run: |
@@ -60,7 +60,7 @@ jobs:
       - name: Create firefox build
         run: |
           rm Package.zip
-          ./firefoxfy.sh
+          npm run build:firefox
 
       - name: Pack firefox extension
         run: |

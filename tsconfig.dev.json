@@ -14,7 +14,7 @@
     "strict": true,
     "target": "es2017",
     "isolatedModules": true,
-    "types": ["@crxjs/vite-plugin/client", "@types/chrome", "@types/estree", "@types/jwplayer"]
+    "types": ["@types/chrome", "@types/estree", "@types/jwplayer"]
   },
   "include": [
     "src",
