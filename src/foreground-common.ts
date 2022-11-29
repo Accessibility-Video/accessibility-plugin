@@ -1,4 +1,4 @@
-import videoAccessibility from './video-accessibility?script&module'
+import videoAccessibility from "./video-accessibility?script&module";
 import {
     EventType,
     MediaPlayerHandler,

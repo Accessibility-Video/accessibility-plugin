@@ -14,19 +14,12 @@
     "strict": true,
     "target": "es2017",
     "isolatedModules": true,
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "types": ["@crxjs/vite-plugin/client", "@types/chrome", "@types/estree", "@types/jwplayer"]
   },
-  "exclude": [
-    "dist",
-    "node_modules",
-    "node_modules/**/*",
-    "!node_modules/@types",
-    "package.json",
-    "rollup.config.js"
-  ],
   "include": [
     "src",
-    "libs"
+    "libs",
+    "vite.config.ts",
+    "manifest.ts"
   ]
 }
