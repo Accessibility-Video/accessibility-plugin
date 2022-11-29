@@ -16,10 +16,5 @@
     "isolatedModules": true,
     "types": ["@types/chrome", "@types/estree", "@types/jwplayer"]
   },
-  "include": [
-    "src",
-    "libs",
-    "vite.config.ts",
-    "manifest.ts"
-  ]
+  "include": ["src", "libs", "vite.config.ts"]
 }
