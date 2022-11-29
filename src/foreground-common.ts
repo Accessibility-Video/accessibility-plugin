@@ -37,7 +37,6 @@ Promise.all([Storage.get(Storage.Key.UserPreference), Document.ready]).then(([pr
     const script = document.createElement("script");
     script.setAttribute("type", "text/javascript");
     script.setAttribute("src", filePath);
-    script.type = "module";
     script.async = true;
     Document.append(script, "body");
 

@@ -73,7 +73,8 @@
         "assets/fonts/scribit-icons.woff",
         "assets/images/logo.png",
         "assets/images/icon.svg",
-        "assets/styles/variables.css"
+        "assets/styles/variables.css",
+        "video-accessibility.js"
       ],
       "matches": ["<all_urls>"]
     }
