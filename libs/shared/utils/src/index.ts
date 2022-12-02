@@ -1,3 +1,4 @@
-export { getImplementedMediaPlayerInstances, PlayerFactory } from "./player-detection";
+export type { PlayerFactory } from "./player-detection";
+export { getImplementedMediaPlayerInstances } from "./player-detection";
 export { Media } from "./media";
-export { IPlayer } from "./i-player";
+export type { IPlayer } from "./i-player";

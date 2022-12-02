@@ -13,17 +13,8 @@
     "lib": ["es2017", "dom", "es2019.array"],
     "strict": true,
     "target": "es2017",
+    "isolatedModules": true,
+    "types": ["@types/chrome", "@types/estree", "@types/jwplayer"]
   },
-  "exclude": [
-    "dist",
-    "node_modules",
-    "node_modules/**/*",
-    "!node_modules/@types",
-    "package.json",
-    "rollup.config.js"
-  ],
-  "include": [
-    "src",
-    "libs"
-  ]
+  "include": ["src", "libs", "vite.config.ts"]
 }
