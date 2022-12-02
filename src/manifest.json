@@ -4,7 +4,8 @@
   "description": "__MSG_extensionDescription__",
   "homepage_url": "https://accessibility.video",
   "version": "1.3.0",
-  "manifest_version": 3,
+  "{{chrome}}.manifest_version": 3,
+  "{{firefox}}.manifest_version": 2,
   "icons": {
     "16": "icon-16x16.png",
     "32": "icon-32x32.png",
@@ -18,8 +19,14 @@
   "options_ui": {
     "page": "pages/options.html"
   },
-  "permissions": ["storage", "tabs"],
-  "host_permissions": ["http://*/*", "https://*/*"],
+  "{{chrome}}.permissions": ["storage", "tabs"],
+  "{{chrome}}.host_permissions": ["http://*/*", "https://*/*"],
+  "{{firefox}}.permissions": [
+    "storage",
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+  ],
   "content_scripts": [
     {
       "all_frames": true,
@@ -65,7 +72,7 @@
       "js": ["foreground-common.ts"]
     }
   ],
-  "web_accessible_resources": [
+  "{{chrome}}.web_accessible_resources": [
     {
       "resources": [
         "assets/fonts/scribit-icons.svg",
@@ -78,5 +85,15 @@
       ],
       "matches": ["<all_urls>"]
     }
+  ],
+  "{{firefox}}.web_accessible_resources": [
+    "assets/fonts/scribit-icons.svg",
+    "assets/fonts/scribit-icons.ttf",
+    "assets/fonts/scribit-icons.woff",
+    "assets/images/logo.png",
+    "assets/images/icon.svg",
+    "assets/styles/variables.css",
+    "video-accessibility.ts",
+    "*.js"
   ]
 }
