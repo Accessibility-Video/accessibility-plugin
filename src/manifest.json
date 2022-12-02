@@ -3,7 +3,7 @@
   "default_locale": "en",
   "description": "__MSG_extensionDescription__",
   "homepage_url": "https://accessibility.video",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "{{chrome}}.manifest_version": 3,
   "{{firefox}}.manifest_version": 2,
   "icons": {
@@ -14,13 +14,21 @@
   },
   "background": {
     "{{chrome}}.service_worker": "background.ts",
-    "{{firefox}}.scripts": ["background.ts"]
+    "{{firefox}}.scripts": [
+      "background.ts"
+    ]
   },
   "options_ui": {
     "page": "pages/options.html"
   },
-  "{{chrome}}.permissions": ["storage", "tabs"],
-  "{{chrome}}.host_permissions": ["http://*/*", "https://*/*"],
+  "{{chrome}}.permissions": [
+    "storage",
+    "tabs"
+  ],
+  "{{chrome}}.host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
   "{{firefox}}.permissions": [
     "storage",
     "tabs",
@@ -30,14 +38,19 @@
   "content_scripts": [
     {
       "all_frames": true,
-      "exclude_matches": ["http://player.vimeo.com/static/*", "https://player.vimeo.com/static/*"],
+      "exclude_matches": [
+        "http://player.vimeo.com/static/*",
+        "https://player.vimeo.com/static/*"
+      ],
       "matches": [
         "http://vimeo.com/*",
         "https://vimeo.com/*",
         "http://player.vimeo.com/*",
         "https://player.vimeo.com/*"
       ],
-      "js": ["foreground-vimeo.ts"]
+      "js": [
+        "foreground-vimeo.ts"
+      ]
     },
     {
       "all_frames": true,
@@ -49,7 +62,9 @@
         "http://www.youtube-nocookie.com/*",
         "https://www.youtube-nocookie.com/*"
       ],
-      "js": ["foreground-youtube.ts"]
+      "js": [
+        "foreground-youtube.ts"
+      ]
     },
     {
       "all_frames": true,
@@ -68,8 +83,13 @@
         "https://hangouts.google.com/*",
         "https://meet.google.com/*"
       ],
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["foreground-common.ts"]
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "foreground-common.ts"
+      ]
     }
   ],
   "{{chrome}}.web_accessible_resources": [
@@ -83,7 +103,9 @@
         "assets/styles/variables.css",
         "video-accessibility.js"
       ],
-      "matches": ["<all_urls>"]
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ],
   "{{firefox}}.web_accessible_resources": [
