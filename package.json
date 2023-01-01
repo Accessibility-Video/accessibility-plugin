@@ -31,7 +31,7 @@
     "@tsconfig/svelte": "^3.0.0",
     "@types/chrome": "^0.0.206",
     "@types/estree": "^1.0.0",
-    "@types/jwplayer": "8.2.12",
+    "@types/jwplayer": "8.2.13",
     "@types/lodash": "^4.14.190",
     "@types/video.js": "^7.3.49",
     "@types/vimeo__player": "^2.16.3",
