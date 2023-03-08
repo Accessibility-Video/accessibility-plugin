@@ -44,7 +44,7 @@ class Youtube extends BasePlayer {
                 });
                 return observer.observe(toggleButton, {
                     attributes: true,
-                    attributeFilter: ["style"]
+                    attributeFilter: ["title", "style"]
                 });
             }
             if (currentState !== enabled.toString()) {
