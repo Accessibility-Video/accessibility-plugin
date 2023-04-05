@@ -3,7 +3,7 @@
   "default_locale": "en",
   "description": "__MSG_extensionDescription__",
   "homepage_url": "https://accessibility.video",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "{{chrome}}.manifest_version": 3,
   "{{firefox}}.manifest_version": 2,
   "icons": {
