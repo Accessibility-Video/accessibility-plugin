@@ -30,7 +30,7 @@
     "@semantic-release/git": "10.0.1",
     "@sveltejs/vite-plugin-svelte": "^2.0.2",
     "@tsconfig/svelte": "^4.0.0",
-    "@types/chrome": "^0.0.229",
+    "@types/chrome": "^0.0.231",
     "@types/estree": "^1.0.0",
     "@types/jwplayer": "8.2.13",
     "@types/lodash": "^4.14.190",
