@@ -30,7 +30,7 @@
     "@semantic-release/git": "10.0.1",
     "@sveltejs/vite-plugin-svelte": "^2.0.2",
     "@tsconfig/svelte": "^4.0.0",
-    "@types/chrome": "^0.0.233",
+    "@types/chrome": "^0.0.234",
     "@types/estree": "^1.0.0",
     "@types/jwplayer": "8.2.13",
     "@types/lodash": "^4.14.190",
@@ -59,8 +59,8 @@
     "webextension-polyfill": "^0.10.0"
   },
   "dependencies": {
-    "lit": "2.7.2",
+    "lit": "2.7.3",
     "lodash": "4.17.21",
-    "rxjs": "7.8.0"
+    "rxjs": "7.8.1"
   }
 }
